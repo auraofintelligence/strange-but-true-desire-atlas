@@ -1071,6 +1071,12 @@ input[type="range"] {
   border-radius: var(--radius);
 }
 
+.demographic-card > .source-type {
+  justify-content: center;
+  margin-inline: auto;
+  text-align: center;
+}
+
 .evidence-bars {
   display: grid;
   margin: 1.15rem 0;

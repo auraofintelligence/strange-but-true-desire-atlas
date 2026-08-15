@@ -5,7 +5,7 @@ export const site = {
   repoUrl: "https://github.com/auraofintelligence/strange-but-true-desire-atlas",
   contactUrl: "https://auraofintelligence.github.io/strange-but-true/contact.html",
   checkedAt: "15 August 2026",
-  assetVersion: "20260815i"
+  assetVersion: "20260815j"
 };
 
 export const pages = [
