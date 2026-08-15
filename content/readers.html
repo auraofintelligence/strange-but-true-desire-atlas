@@ -1,0 +1,126 @@
+<section class="section section--paper">
+  <div class="section-inner">
+    <div class="section-intro">
+      <div>
+        <p class="section-kicker">Evidence before personas</p>
+        <h2>Three samples are not one world.</h2>
+      </div>
+      <div>
+        <p>Public reader data is patchy. The available samples below cover different years, countries, genres and questions. They are deliberately kept apart so a historic US romance survey does not become a pretend global gender split.</p>
+      </div>
+    </div>
+
+    <div class="demographic-grid">
+      <article class="demographic-card">
+        <span class="source-type">Historic US romance survey</span>
+        <h3>2017 · 2,000 US romance readers</h3>
+        <div class="bar-stack" role="img" aria-label="The survey reported 82 per cent women and 18 per cent men">
+          <span class="bar-women" style="width:82%"></span>
+          <span class="bar-men" style="width:18%"></span>
+        </div>
+        <p class="bar-legend"><span><i class="legend-dot bar-women"></i>82% women</span><span><i class="legend-dot bar-men"></i>18% men</span></p>
+        <p>This binary benchmark is historic and US-only. It does not represent all contemporary identities or readers.</p>
+        <p><a href="https://www.rwa.org/about-romance-fiction" rel="external noopener">RWA survey summary ↗</a></p>
+      </article>
+
+      <article class="demographic-card">
+        <span class="source-type">Canadian all-book survey</span>
+        <h3>2024 · English-speaking Canadian buyers</h3>
+        <div class="bar-stack" role="img" aria-label="Normalised visual of a survey reporting 52 per cent women, 48 per cent men and 1 per cent non-binary, with rounded labels totalling 101 per cent">
+          <span class="bar-women" style="width:51.5%"></span>
+          <span class="bar-men" style="width:47.5%"></span>
+          <span class="bar-nonbinary" style="width:1%"></span>
+        </div>
+        <p class="bar-legend"><span><i class="legend-dot bar-women"></i>52% women</span><span><i class="legend-dot bar-men"></i>48% men</span><span><i class="legend-dot bar-nonbinary"></i>1% non-binary</span></p>
+        <p>This covers all surveyed book buyers, not romance readers. The report describes 2,045 online opt-in respondents, unweighted results and an approximate ±3% range. Published labels total 101% after rounding, so the visual bar is normalised to fit 100%.</p>
+        <p><a href="https://www.booknetcanada.ca/canadian-book-consumer-2024" rel="external noopener">BookNet Canada ↗</a></p>
+      </article>
+
+      <article class="demographic-card">
+        <span class="badge badge--review">Data not yet verified</span>
+        <h3>Australia and other target regions</h3>
+        <div class="bar-stack" role="img" aria-label="No verified comparable romance-reader gender data">
+          <span style="width:100%;background:#e4dfe9"></span>
+        </div>
+        <p>Comparable current romance-reader gender and unit-sales data has not been verified for Australia, India, Japan or the UAE.</p>
+        <p>The honest visual is an empty bar, not a borrowed percentage.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="section-inner">
+    <div class="section-intro">
+      <div>
+        <p class="section-kicker">Local-only planning tool</p>
+        <h2>Shape a hypothesis, then go listen.</h2>
+      </div>
+      <div>
+        <p>Move the sliders to show which reader conversations deserve attention first. The numbers are emphasis scores from 10 to 100. They are not population shares, sales forecasts or analytics. Nothing is saved or sent anywhere.</p>
+      </div>
+    </div>
+
+    <div class="audience-lab">
+      <form class="audience-controls" aria-label="Audience hypothesis emphasis controls">
+        <div class="range-row">
+          <label for="segment-sfr">Science-fiction romance</label>
+          <input id="segment-sfr" data-audience-range data-segment="sfr" data-label="science-fiction romance" type="range" min="10" max="100" value="88">
+          <output data-audience-output="sfr" for="segment-sfr">88</output>
+        </div>
+        <div class="range-row">
+          <label for="segment-romantasy">Romantasy</label>
+          <input id="segment-romantasy" data-audience-range data-segment="romantasy" data-label="romantasy" type="range" min="10" max="100" value="82">
+          <output data-audience-output="romantasy" for="segment-romantasy">82</output>
+        </div>
+        <div class="range-row">
+          <label for="segment-ai">AI and near futures</label>
+          <input id="segment-ai" data-audience-range data-segment="ai" data-label="AI and near-future fiction" type="range" min="10" max="100" value="76">
+          <output data-audience-output="ai" for="segment-ai">76</output>
+        </div>
+        <div class="range-row">
+          <label for="segment-travel">Travel and culture</label>
+          <input id="segment-travel" data-audience-range data-segment="travel" data-label="travel and cross-cultural stories" type="range" min="10" max="100" value="62">
+          <output data-audience-output="travel" for="segment-travel">62</output>
+        </div>
+        <div class="range-row">
+          <label for="segment-family">Chosen-family futures</label>
+          <input id="segment-family" data-audience-range data-segment="family" data-label="chosen-family and plural futures" type="range" min="10" max="100" value="68">
+          <output data-audience-output="family" for="segment-family">68</output>
+        </div>
+        <div class="range-row">
+          <label for="segment-protopia">Protopian civic fiction</label>
+          <input id="segment-protopia" data-audience-range data-segment="protopia" data-label="protopian civic fiction" type="range" min="10" max="100" value="54">
+          <output data-audience-output="protopia" for="segment-protopia">54</output>
+        </div>
+      </form>
+
+      <div>
+        <div class="constellation" aria-label="Visual audience hypothesis constellation">
+          <span class="constellation-node" data-segment="sfr">Sci-fi romance</span>
+          <span class="constellation-node" data-segment="romantasy">Romantasy</span>
+          <span class="constellation-node" data-segment="ai">AI futures</span>
+          <span class="constellation-node" data-segment="travel">Travel</span>
+          <span class="constellation-node" data-segment="family">Chosen family</span>
+          <span class="constellation-node" data-segment="protopia">Protopia</span>
+        </div>
+        <p class="hypothesis-summary" id="hypothesis-summary" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="section-inner">
+    <div class="section-intro">
+      <div>
+        <p class="section-kicker">First-party research</p>
+        <h2>Ask readers how they describe themselves.</h2>
+      </div>
+      <div>
+        <p>A future opt-in survey should separate gender identity, age band, region, preferred format, heat tolerance, genre promise and discovery path. Include “another identity”, “prefer not to say” and “unknown”. Never infer gender from a name, photograph, purchase or reading history.</p>
+        <p>Publish sample size, recruitment method, field dates and missing responses beside every chart.</p>
+      </div>
+    </div>
+  </div>
+</section>

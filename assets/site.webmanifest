@@ -1,0 +1,17 @@
+{
+  "name": "Strange But True: The Desire Atlas",
+  "short_name": "Desire Atlas",
+  "description": "A global atlas for speculative love stories.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080b20",
+  "theme_color": "#241044",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
+
