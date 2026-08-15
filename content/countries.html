@@ -1,24 +1,28 @@
-<section class="section section--paper">
-  <div class="section-inner">
-    <div class="callout">
-      <h3>Not legal advice or distribution clearance</h3>
-      <p>This matrix is a research starting point. “Local review required” does not mean approved. “High caution” does not mean prohibited. Laws, customs, classification, age assurance and retailer policy can apply separately and can change.</p>
-    </div>
-  </div>
-</section>
-
 <section class="section section--dark">
-  <div class="section-inner route-globe-wrap">
-    <div class="route-globe" id="route-globe" aria-label="Planning globe with country-edition review points"></div>
-    <div>
-      <p class="section-kicker">Route globe</p>
-      <h2>A visual index, not a boundary map.</h2>
-      <p class="lead">Select a glowing point to reach its country card. The colours show the current review route, not whether a book is legal.</p>
-      <div class="route-legend" aria-label="Route status legend">
-        <div class="route-legend-item"><span class="route-dot"></span><p><strong>Local review required</strong><br>Official sources located, but no blanket clearance.</p></div>
-        <div class="route-legend-item"><span class="route-dot route-dot--caution"></span><p><strong>High caution</strong><br>Local content, youth-access, language or market rules need specialist review.</p></div>
-        <div class="route-legend-item"><span class="route-dot route-dot--off"></span><p><strong>Distribution not activated</strong><br>Do not switch on availability without local clearance.</p></div>
+  <div class="section-inner route-map-layout">
+    <div class="route-map-copy">
+      <p class="section-kicker">Interactive country guide</p>
+      <h2 id="route-map-heading">Explore the real geography.</h2>
+      <p class="lead">Select a marker to open the starting point for that country edition. The map connects official sources to practical questions about the manuscript, cover, metadata, access and distribution.</p>
+      <a class="map-skip-link" href="#country-grid">Skip the map and browse the country guides</a>
+      <div class="route-legend" aria-label="Edition-research status legend">
+        <div class="route-legend-item"><span class="country-map-symbol country-map-symbol--local-review" aria-hidden="true"><span class="country-map-glyph">R</span></span><p><strong>Local edition review</strong><br>Official starting sources and edition questions are available.</p></div>
+        <div class="route-legend-item"><span class="country-map-symbol country-map-symbol--high-caution" aria-hidden="true"><span class="country-map-glyph">!</span></span><p><strong>Specialist local review</strong><br>Content, youth-access, language or market rules deserve deeper local attention.</p></div>
+        <div class="route-legend-item"><span class="country-map-symbol country-map-symbol--not-activated" aria-hidden="true"><span class="country-map-glyph">×</span></span><p><strong>Route not yet mapped</strong><br>The public distribution path remains a dedicated local research task.</p></div>
       </div>
+    </div>
+    <div class="route-map-panel">
+      <p class="route-map-instructions" id="route-map-instructions">Use plus and minus to zoom, drag to move, or use the arrow keys while the map is focused. Select a marker for its edition status and country-guide link.</p>
+      <div class="route-map-toolbar">
+        <button class="button button--glass" id="route-map-reset" type="button">Reset world view</button>
+        <button class="button button--glass" id="route-map-movement" type="button" aria-pressed="false" hidden>Enable map movement</button>
+      </div>
+      <div class="route-map" id="route-map" role="region" aria-labelledby="route-map-heading" aria-describedby="route-map-instructions">
+        <p class="route-map-fallback">Loading the interactive world map.</p>
+      </div>
+      <noscript><p class="route-map-fallback">The interactive map and guide cards use JavaScript. The country records remain readable in the <a href="assets/site-data.js">public data file</a>.</p></noscript>
+      <p class="route-map-status" id="route-map-status" aria-live="polite"></p>
+      <p class="route-map-note">Markers use representative capital-city anchors, including Brussels for the EU overlay. Zoom into Europe to separate nearby guides. The guides are research starting points for edition planning, not completed legal clearance.</p>
     </div>
   </div>
 </section>
@@ -28,18 +32,18 @@
     <div class="section-intro">
       <div>
         <p class="section-kicker">Initial jurisdiction set</p>
-        <h2>Country-edition questions.</h2>
+        <h2>Open the country-edition questions.</h2>
       </div>
       <div>
-        <p>Each card says what an official source supports and what the next human action is. Other Gulf states and unlisted jurisdictions remain <strong>TO BE CONFIRMED</strong>.</p>
+        <p>Each guide connects a short legal or regulatory summary to the next practical edition action. The set can grow country by country as new local sources and reviewers are added.</p>
       </div>
     </div>
 
-    <div class="filter-bar" aria-label="Filter country editions by review route">
-      <button class="filter-button" type="button" data-country-filter data-filter="all" aria-pressed="true">All routes</button>
-      <button class="filter-button" type="button" data-country-filter data-filter="local-review" aria-pressed="false">Local review</button>
-      <button class="filter-button" type="button" data-country-filter data-filter="high-caution" aria-pressed="false">High caution</button>
-      <button class="filter-button" type="button" data-country-filter data-filter="not-activated" aria-pressed="false">Not activated</button>
+    <div class="filter-bar" aria-label="Filter country editions by research status">
+      <button class="filter-button" type="button" data-country-filter data-filter="all" aria-pressed="true">All countries</button>
+      <button class="filter-button" type="button" data-country-filter data-filter="local-review" aria-pressed="false">Local edition review</button>
+      <button class="filter-button" type="button" data-country-filter data-filter="high-caution" aria-pressed="false">Specialist review</button>
+      <button class="filter-button" type="button" data-country-filter data-filter="not-activated" aria-pressed="false">Route not mapped</button>
     </div>
 
     <p class="visually-hidden" id="country-status" aria-live="polite"></p>
@@ -53,18 +57,18 @@
   <div class="section-inner">
     <div class="section-intro">
       <div>
-        <p class="section-kicker">Edition packet</p>
-        <h2>Review more than the manuscript.</h2>
+        <p class="section-kicker">Complete edition packet</p>
+        <h2>Customise more than the manuscript.</h2>
       </div>
       <div>
-        <p>A country edition includes cover, title, description, keywords, preview, interior, age access, price, tax, accessibility, retailer settings, import route and promotional creative. One approved element does not clear the rest.</p>
+        <p>A country edition can change its cover, title, description, keywords, preview, interior, age access, price, accessibility, retailer settings, import route and promotional creative. Record the decisions together so each version stays understandable.</p>
       </div>
     </div>
 
     <div class="card-grid">
-      <article class="card"><h3>Content and context</h3><p>Confirm that every intimate participant is an adult, consent is legible and no prohibited or restricted material is created by implication, image or metadata.</p></article>
-      <article class="card"><h3>Access and retail</h3><p>Check age controls, category, cover visibility, preview length, fixed-price rules, accessibility and retailer-specific territory switches.</p></article>
-      <article class="card"><h3>Local review record</h3><p>Save the exact edition, source links, advice date, reviewer, unresolved issues and decision. Re-open the gate after a major revision or policy change.</p></article>
+      <article class="card"><h3>Story and presentation</h3><p>Record any manuscript, cover, title, description, keyword and preview changes made for the local edition.</p></article>
+      <article class="card"><h3>Access and retail</h3><p>Record category, age access, price, accessibility, retailer settings, print route and territory availability.</p></article>
+      <article class="card"><h3>Edition history</h3><p>Save the exact files, source links, review date, reviewer, decisions and open questions so later revisions have a clear starting point.</p></article>
     </div>
   </div>
 </section>

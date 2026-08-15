@@ -403,7 +403,8 @@
         name: "Australia",
         region: "Oceania",
         route: "local-review",
-        routeLabel: "Local review required",
+        routeLabel: "Local edition review",
+        mapPoint: { lat: -35.2809, lng: 149.13, label: "Canberra" },
         summary: "Most ordinary books are not pre-classified. A publication that may be refused classification, offend a reasonable adult or be unsuitable for minors can become submittable.",
         action: "Check Commonwealth classification and import rules plus the state or territory where stock will be supplied.",
         sources: [
@@ -424,7 +425,8 @@
         name: "United States",
         region: "North America",
         route: "local-review",
-        routeLabel: "Local review required",
+        routeLabel: "Local edition review",
+        mapPoint: { lat: 38.9072, lng: -77.0369, label: "Washington, DC" },
         summary: "Obscenity law can apply to written material. The whole work, community standards, defined sexual conduct and serious literary, artistic, political or scientific value can be relevant.",
         action: "Review federal, state and local exposure, plus each retailer's separate policy.",
         sources: [
@@ -440,7 +442,8 @@
         name: "United Kingdom",
         region: "Europe",
         route: "local-review",
-        routeLabel: "Local review required",
+        routeLabel: "Local edition review",
+        mapPoint: { lat: 51.5074, lng: -0.1278, label: "London" },
         summary: "In England and Wales, the Obscene Publications Act can cover written and electronic articles. Adult consent and effective exclusion of minors reduce risk but are not a safe harbour.",
         action: "Obtain a separate Scotland or Northern Ireland review rather than applying England and Wales guidance across the UK.",
         sources: [
@@ -456,7 +459,8 @@
         name: "Canada",
         region: "North America",
         route: "local-review",
-        routeLabel: "Local review required",
+        routeLabel: "Local edition review",
+        mapPoint: { lat: 45.4215, lng: -75.6972, label: "Ottawa" },
         summary: "Criminal Code section 163 addresses obscene written matter where the dominant characteristic is undue exploitation of sex, including combinations with crime, horror, cruelty or violence.",
         action: "Recheck criminal law, customs treatment and provincial retail requirements before importing print stock.",
         sources: [
@@ -477,7 +481,8 @@
         name: "New Zealand",
         region: "Oceania",
         route: "local-review",
-        routeLabel: "Local review required",
+        routeLabel: "Local edition review",
+        mapPoint: { lat: -41.2866, lng: 174.7756, label: "Wellington" },
         summary: "Books are not generally classified in advance, but existing restrictions bind sellers and objectionable material cannot be possessed, supplied or imported.",
         action: "A publisher can submit a concerning title for classification before distribution.",
         sources: [
@@ -498,7 +503,8 @@
         name: "European Union overlay",
         region: "Europe",
         route: "local-review",
-        routeLabel: "National reviews still required",
+        routeLabel: "National edition reviews",
+        mapPoint: { lat: 50.8503, lng: 4.3517, label: "Brussels reference point" },
         summary: "EU accessibility requirements can apply to ebooks, reading software and ecommerce services from 28 June 2025. The EU is not one content, price or tax clearance zone.",
         action: "Build accessible ebook files and interfaces, then review the content and trading rules of each target country.",
         sources: [
@@ -514,7 +520,8 @@
         name: "Germany",
         region: "Europe",
         route: "high-caution",
-        routeLabel: "High caution",
+        routeLabel: "Specialist local review",
+        mapPoint: { lat: 52.52, lng: 13.405, label: "Berlin" },
         summary: "Criminal Code section 184 regulates access by minors and particular distribution, import and advertising of pornographic content. Related offences cover violent, animal, child and youth material.",
         action: "Commission a current German review covering youth-media protection and fixed book pricing.",
         sources: [
@@ -530,7 +537,8 @@
         name: "France",
         region: "Europe",
         route: "high-caution",
-        routeLabel: "High caution",
+        routeLabel: "Specialist local review",
+        mapPoint: { lat: 48.8566, lng: 2.3522, label: "Paris" },
         summary: "French law restricts pornographic, violent or seriously dignity-harming messages where minors may perceive them. A simple over-18 declaration may not be sufficient protection.",
         action: "Review minor access, youth-publication law and fixed-price requirements before activation.",
         sources: [
@@ -546,9 +554,10 @@
         name: "India",
         region: "Asia",
         route: "high-caution",
-        routeLabel: "High caution",
+        routeLabel: "Specialist local review",
+        mapPoint: { lat: 28.6139, lng: 77.209, label: "New Delhi" },
         summary: "Bharatiya Nyaya Sanhita section 294 addresses sale, distribution, public exhibition, production, import, export and advertising of material meeting its obscenity test.",
-        action: "Do not rely on general literature, art or learning exceptions without case-specific local advice.",
+        action: "Ask a local specialist how the literature, art and learning exceptions apply to the exact edition.",
         sources: [
           {
             name: "Bharatiya Nyaya Sanhita section 294",
@@ -562,7 +571,8 @@
         name: "Japan",
         region: "Asia",
         route: "high-caution",
-        routeLabel: "High caution",
+        routeLabel: "Specialist local review",
+        mapPoint: { lat: 35.6762, lng: 139.6503, label: "Tokyo" },
         summary: "The government English translation of Penal Code article 175 addresses distributing, publicly displaying or transmitting obscene documents, drawings and electronic records.",
         action: "Check the current authoritative Japanese text and local practice. Retailers may add their own illustrated-content restrictions.",
         sources: [
@@ -578,9 +588,10 @@
         name: "United Arab Emirates",
         region: "Middle East",
         route: "not-activated",
-        routeLabel: "Distribution not activated",
+        routeLabel: "Route not yet mapped",
+        mapPoint: { lat: 24.4539, lng: 54.3773, label: "Abu Dhabi" },
         summary: "Federal media law establishes licensing, permit, content-standard and age-rating controls for print and digital publishing.",
-        action: "Use a licensed local distributor and specialist legal review before making an edition available. Other Gulf states remain TO BE CONFIRMED.",
+        action: "Map a licensed local distribution route and specialist review for the edition. Other Gulf states remain TO BE CONFIRMED.",
         sources: [
           {
             name: "UAE Federal Decree-Law No. 55 of 2023",
@@ -595,19 +606,7 @@
         ]
       }
     ],
-    projectSources: [
-      {
-        name: "GitHub sexually obscene content policy",
-        url: "https://docs.github.com/en/site-policy/acceptable-use-policies/github-sexually-obscene-content",
-        type: "HOST POLICY",
-        scope: "Why this public site stays non-explicit and research-led."
-      },
-      {
-        name: "GitHub Pages limits",
-        url: "https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits",
-        type: "HOST POLICY",
-        scope: "Why this site does not provide an onsite commercial checkout."
-      },
+    audienceSources: [
       {
         name: "2017 US romance-reader survey",
         url: "https://www.rwa.org/about-romance-fiction",
@@ -620,18 +619,6 @@
         type: "INDUSTRY SURVEY",
         scope: "English-speaking Canadian book buyers across all genres, not romance-only."
       },
-      {
-        name: "Australian Marriage Act 1961",
-        url: "https://www.legislation.gov.au/C1961A00012/latest/text",
-        type: "LAW",
-        scope: "Present Australian marriage law, including section 94."
-      },
-      {
-        name: "Canadian Criminal Code section 293",
-        url: "https://laws-lois.justice.gc.ca/eng/acts/C-46/section-293.html/page-23.html",
-        type: "LAW",
-        scope: "Why fictional group marriage must not be presented as current legal recognition."
-      }
     ]
   };
 
@@ -657,7 +644,7 @@
   for (const item of data.events) collect(item.source, "Event", `${item.place} · ${item.start} to ${item.end}`);
   for (const item of data.channels) for (const source of item.sources) collect(source, "Platform", item.boundary);
   for (const item of data.countries) for (const source of item.sources) collect(source, "Law and regulation", `${item.name}: ${item.routeLabel}. ${item.action}`);
-  for (const source of data.projectSources) collect(source, "Project", source.scope);
+  for (const source of data.audienceSources) collect(source, "Audience", source.scope);
 
   data.sources = Array.from(sourceMap.values()).sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name));
   window.DESIRE_ATLAS_DATA = Object.freeze(data);

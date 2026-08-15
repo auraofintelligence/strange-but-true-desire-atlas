@@ -1,20 +1,21 @@
 # Strange But True: The Desire Atlas
 
-The Desire Atlas is a public, multi-page field guide for people exploring near-future romance, science-fiction romance, romantasy, travel, publishing and consent-centred plural futures.
+The Desire Atlas is a public, multi-page author atlas for speculative near-future fiction, science-fiction romance and romantasy.
 
-It combines five kinds of material without pretending they are interchangeable:
+It brings together:
 
-- source-grounded evidence;
-- proposed pathways;
-- source-inspired fiction;
-- fictional wild cards; and
-- human review gates.
+- reader and audience insights;
+- communities, forums, conferences and events;
+- market signals and sales-volume planning;
+- publishing and distribution channels;
+- interactive country-edition guides; and
+- the future ideas behind the books, including emerging intelligence, global group marriage, Love United Nations and joyful responsible abundance.
 
-The site is editorial and research-led. It is not an explicit-content host, a dating service, a shop, legal advice or automated distribution clearance.
+The site deliberately lets public evidence, Luke's working goals and speculative future worlds sit beside one another. Evidence keeps a source and date; goals remain adjustable; future worlds remain possibilities.
 
 ## Public pages
 
-The twelve-page journey covers reader hypotheses, communities, gatherings, market signals, sales channels, country-edition checks, speculative storyworlds, consent, evidence status, sources and the custom licence.
+The eleven-page site follows an author journey from Audience to Communities, Events, Market, Sales Channels, Countries and Future Worlds. The Agency Compass, Sources and Licence support that journey without becoming its centre.
 
 ## Work locally
 
@@ -24,15 +25,19 @@ The twelve-page journey covers reader hypotheses, communities, gatherings, marke
 
 The editable page bodies live in `content/`. Shared page details and navigation live in `tools/site-config.mjs`. Generated HTML is committed at the repository root so GitHub Pages can serve it without a custom runtime.
 
-## Evidence rule
+## Public research
 
-Every consequential legal, platform, event and market claim needs a named source, a scope and a last-checked date. National law, customs rules, platform policy and editorial principles are kept separate. Unknowns stay visible as `TO BE CONFIRMED`.
+Market, platform, event, community and country claims link to their public sources and checked dates. The Country Guides are edition-planning starting points, not completed legal clearance.
 
-Old private notes and personal Travel Oracle material were used only as design context. Private locations, finances, health details, real-person relationship notes and biometrics-as-consent claims are not part of this public repo.
+The Sales Channels page begins with Luke's public $5,000 monthly author-revenue goal and lets visitors test other assumptions locally in the browser.
 
 ## Artwork
 
 Five original cinematic hero images were generated for this project. The prompt record and file map are in `docs/IMAGE_GENERATION.md`.
+
+## Interactive map
+
+The Countries page uses a locally bundled copy of Leaflet 1.9.4 and live OpenStreetMap tiles. Country markers are representative navigation anchors. Third-party credits and licence details are recorded in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Licence
 

@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Country Editions · The Desire Atlas</title>
-  <meta name="description" content="A cautious country-edition matrix for law, classification, access and platform review.">
+  <title>Country Edition Guides · The Desire Atlas</title>
+  <meta name="description" content="An interactive country-edition guide for law, classification, access, retail and local customisation questions.">
   <meta name="theme-color" content="#160d31">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Strange But True: The Desire Atlas">
-  <meta property="og:title" content="Country Editions">
-  <meta property="og:description" content="A cautious country-edition matrix for law, classification, access and platform review.">
+  <meta property="og:title" content="Country Edition Guides">
+  <meta property="og:description" content="An interactive country-edition guide for law, classification, access, retail and local customisation questions.">
   <meta property="og:url" content="https://auraofintelligence.github.io/strange-but-true-desire-atlas/countries.html">
   <meta property="og:image" content="https://auraofintelligence.github.io/strange-but-true-desire-atlas/assets/images/social-card.jpg">
   <meta property="og:image:width" content="1200">
@@ -18,7 +18,8 @@
   <link rel="canonical" href="https://auraofintelligence.github.io/strange-but-true-desire-atlas/countries.html">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="assets/site.webmanifest">
-  <link rel="stylesheet" href="assets/styles.css?v=20260815c">
+  <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css?v=1.9.4">
+  <link rel="stylesheet" href="assets/styles.css?v=20260815g">
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body data-page="countries">
@@ -35,55 +36,21 @@
           <span>Menu</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-          <ul class="nav-list">
-      <li class="nav-group">
-        <button class="nav-group-toggle" type="button" aria-expanded="false" aria-controls="nav-explore">
-          Explore <span aria-hidden="true">⌄</span>
-        </button>
-        <ul class="nav-submenu" id="nav-explore"><li><a href="index.html">Home</a></li>
-<li><a href="readers.html">Reader Atlas</a></li>
-<li><a href="tribe.html">Tribe Directory</a></li>
-<li><a href="gatherings.html">Gatherings</a></li></ul>
-      </li>
-
-      <li class="nav-group">
-        <button class="nav-group-toggle" type="button" aria-expanded="false" aria-controls="nav-publish">
-          Publish <span aria-hidden="true">⌄</span>
-        </button>
-        <ul class="nav-submenu" id="nav-publish"><li><a href="market.html">Market Signals</a></li>
-<li><a href="channels.html">Sales &amp; Channels</a></li>
-<li><a href="countries.html" aria-current="page">Country Editions</a></li></ul>
-      </li>
-
-      <li class="nav-group">
-        <button class="nav-group-toggle" type="button" aria-expanded="false" aria-controls="nav-imagine">
-          Imagine <span aria-hidden="true">⌄</span>
-        </button>
-        <ul class="nav-submenu" id="nav-imagine"><li><a href="storyworld.html">Storyworld Shelf</a></li>
-<li><a href="consent.html">Consent Compass</a></li>
-<li><a href="ledger.html">Reality Ledger</a></li></ul>
-      </li>
-
-      <li class="nav-group">
-        <button class="nav-group-toggle" type="button" aria-expanded="false" aria-controls="nav-trust">
-          Trust <span aria-hidden="true">⌄</span>
-        </button>
-        <ul class="nav-submenu" id="nav-trust"><li><a href="sources.html">Sources &amp; Method</a></li>
-<li><a href="licence.html">Licence &amp; Contact</a></li></ul>
-      </li></ul>
+          <ul class="nav-list"><li><a class="nav-direct-link" href="readers.html">Audience</a></li>
+<li><a class="nav-direct-link" href="tribe.html">Communities</a></li>
+<li><a class="nav-direct-link" href="gatherings.html">Events</a></li>
+<li><a class="nav-direct-link" href="market.html">Market</a></li>
+<li><a class="nav-direct-link" href="channels.html">Sales Channels</a></li>
+<li><a class="nav-direct-link" href="countries.html" aria-current="page">Countries</a></li>
+<li><a class="nav-direct-link" href="storyworld.html">Future Worlds</a></li></ul>
         </nav>
-        <noscript><nav class="nojs-nav" aria-label="Primary navigation without JavaScript"><ul><li><a href="index.html">Home</a></li>
-<li><a href="readers.html">Reader Atlas</a></li>
-<li><a href="tribe.html">Tribe Directory</a></li>
-<li><a href="gatherings.html">Gatherings</a></li>
-<li><a href="market.html">Market Signals</a></li>
-<li><a href="channels.html">Sales &amp; Channels</a></li>
-<li><a href="countries.html">Country Editions</a></li>
-<li><a href="storyworld.html">Storyworld Shelf</a></li>
-<li><a href="consent.html">Consent Compass</a></li>
-<li><a href="ledger.html">Reality Ledger</a></li>
-<li><a href="sources.html">Sources &amp; Method</a></li>
-<li><a href="licence.html">Licence &amp; Contact</a></li></ul></nav></noscript>
+        <noscript><nav class="nojs-nav" aria-label="Primary navigation without JavaScript"><ul><li><a href="readers.html">Audience</a></li>
+<li><a href="tribe.html">Communities</a></li>
+<li><a href="gatherings.html">Events</a></li>
+<li><a href="market.html">Market</a></li>
+<li><a href="channels.html">Sales Channels</a></li>
+<li><a href="countries.html">Countries</a></li>
+<li><a href="storyworld.html">Future Worlds</a></li></ul></nav></noscript>
       </div>
     </header>
 
@@ -93,35 +60,39 @@
       <div class="page-hero-inner">
         <div class="page-hero-copy">
           <p class="eyebrow">Publish / Country Editions</p>
-          <h1>A map of questions, not legal clearance.</h1>
-          <p>National law, customs, classification, age access and retailer policy can all apply separately. Every route here still needs a human check.</p>
+          <h1>Build editions for the places you want to reach.</h1>
+          <p>Use the map to compare official starting points for content law, classification, access and retail, then plan the cover, metadata, preview and distribution settings for each edition.</p>
 
         </div>
       </div>
       <p class="art-credit">Original generative artwork · 2026</p>
     </section>
   <main id="main-content" tabindex="-1">
-    <section class="section section--paper">
-  <div class="section-inner">
-    <div class="callout">
-      <h3>Not legal advice or distribution clearance</h3>
-      <p>This matrix is a research starting point. “Local review required” does not mean approved. “High caution” does not mean prohibited. Laws, customs, classification, age assurance and retailer policy can apply separately and can change.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section section--dark">
-  <div class="section-inner route-globe-wrap">
-    <div class="route-globe" id="route-globe" aria-label="Planning globe with country-edition review points"></div>
-    <div>
-      <p class="section-kicker">Route globe</p>
-      <h2>A visual index, not a boundary map.</h2>
-      <p class="lead">Select a glowing point to reach its country card. The colours show the current review route, not whether a book is legal.</p>
-      <div class="route-legend" aria-label="Route status legend">
-        <div class="route-legend-item"><span class="route-dot"></span><p><strong>Local review required</strong><br>Official sources located, but no blanket clearance.</p></div>
-        <div class="route-legend-item"><span class="route-dot route-dot--caution"></span><p><strong>High caution</strong><br>Local content, youth-access, language or market rules need specialist review.</p></div>
-        <div class="route-legend-item"><span class="route-dot route-dot--off"></span><p><strong>Distribution not activated</strong><br>Do not switch on availability without local clearance.</p></div>
+    <section class="section section--dark">
+  <div class="section-inner route-map-layout">
+    <div class="route-map-copy">
+      <p class="section-kicker">Interactive country guide</p>
+      <h2 id="route-map-heading">Explore the real geography.</h2>
+      <p class="lead">Select a marker to open the starting point for that country edition. The map connects official sources to practical questions about the manuscript, cover, metadata, access and distribution.</p>
+      <a class="map-skip-link" href="#country-grid">Skip the map and browse the country guides</a>
+      <div class="route-legend" aria-label="Edition-research status legend">
+        <div class="route-legend-item"><span class="country-map-symbol country-map-symbol--local-review" aria-hidden="true"><span class="country-map-glyph">R</span></span><p><strong>Local edition review</strong><br>Official starting sources and edition questions are available.</p></div>
+        <div class="route-legend-item"><span class="country-map-symbol country-map-symbol--high-caution" aria-hidden="true"><span class="country-map-glyph">!</span></span><p><strong>Specialist local review</strong><br>Content, youth-access, language or market rules deserve deeper local attention.</p></div>
+        <div class="route-legend-item"><span class="country-map-symbol country-map-symbol--not-activated" aria-hidden="true"><span class="country-map-glyph">×</span></span><p><strong>Route not yet mapped</strong><br>The public distribution path remains a dedicated local research task.</p></div>
       </div>
+    </div>
+    <div class="route-map-panel">
+      <p class="route-map-instructions" id="route-map-instructions">Use plus and minus to zoom, drag to move, or use the arrow keys while the map is focused. Select a marker for its edition status and country-guide link.</p>
+      <div class="route-map-toolbar">
+        <button class="button button--glass" id="route-map-reset" type="button">Reset world view</button>
+        <button class="button button--glass" id="route-map-movement" type="button" aria-pressed="false" hidden>Enable map movement</button>
+      </div>
+      <div class="route-map" id="route-map" role="region" aria-labelledby="route-map-heading" aria-describedby="route-map-instructions">
+        <p class="route-map-fallback">Loading the interactive world map.</p>
+      </div>
+      <noscript><p class="route-map-fallback">The interactive map and guide cards use JavaScript. The country records remain readable in the <a href="assets/site-data.js">public data file</a>.</p></noscript>
+      <p class="route-map-status" id="route-map-status" aria-live="polite"></p>
+      <p class="route-map-note">Markers use representative capital-city anchors, including Brussels for the EU overlay. Zoom into Europe to separate nearby guides. The guides are research starting points for edition planning, not completed legal clearance.</p>
     </div>
   </div>
 </section>
@@ -131,18 +102,18 @@
     <div class="section-intro">
       <div>
         <p class="section-kicker">Initial jurisdiction set</p>
-        <h2>Country-edition questions.</h2>
+        <h2>Open the country-edition questions.</h2>
       </div>
       <div>
-        <p>Each card says what an official source supports and what the next human action is. Other Gulf states and unlisted jurisdictions remain <strong>TO BE CONFIRMED</strong>.</p>
+        <p>Each guide connects a short legal or regulatory summary to the next practical edition action. The set can grow country by country as new local sources and reviewers are added.</p>
       </div>
     </div>
 
-    <div class="filter-bar" aria-label="Filter country editions by review route">
-      <button class="filter-button" type="button" data-country-filter data-filter="all" aria-pressed="true">All routes</button>
-      <button class="filter-button" type="button" data-country-filter data-filter="local-review" aria-pressed="false">Local review</button>
-      <button class="filter-button" type="button" data-country-filter data-filter="high-caution" aria-pressed="false">High caution</button>
-      <button class="filter-button" type="button" data-country-filter data-filter="not-activated" aria-pressed="false">Not activated</button>
+    <div class="filter-bar" aria-label="Filter country editions by research status">
+      <button class="filter-button" type="button" data-country-filter data-filter="all" aria-pressed="true">All countries</button>
+      <button class="filter-button" type="button" data-country-filter data-filter="local-review" aria-pressed="false">Local edition review</button>
+      <button class="filter-button" type="button" data-country-filter data-filter="high-caution" aria-pressed="false">Specialist review</button>
+      <button class="filter-button" type="button" data-country-filter data-filter="not-activated" aria-pressed="false">Route not mapped</button>
     </div>
 
     <p class="visually-hidden" id="country-status" aria-live="polite"></p>
@@ -156,26 +127,26 @@
   <div class="section-inner">
     <div class="section-intro">
       <div>
-        <p class="section-kicker">Edition packet</p>
-        <h2>Review more than the manuscript.</h2>
+        <p class="section-kicker">Complete edition packet</p>
+        <h2>Customise more than the manuscript.</h2>
       </div>
       <div>
-        <p>A country edition includes cover, title, description, keywords, preview, interior, age access, price, tax, accessibility, retailer settings, import route and promotional creative. One approved element does not clear the rest.</p>
+        <p>A country edition can change its cover, title, description, keywords, preview, interior, age access, price, accessibility, retailer settings, import route and promotional creative. Record the decisions together so each version stays understandable.</p>
       </div>
     </div>
 
     <div class="card-grid">
-      <article class="card"><h3>Content and context</h3><p>Confirm that every intimate participant is an adult, consent is legible and no prohibited or restricted material is created by implication, image or metadata.</p></article>
-      <article class="card"><h3>Access and retail</h3><p>Check age controls, category, cover visibility, preview length, fixed-price rules, accessibility and retailer-specific territory switches.</p></article>
-      <article class="card"><h3>Local review record</h3><p>Save the exact edition, source links, advice date, reviewer, unresolved issues and decision. Re-open the gate after a major revision or policy change.</p></article>
+      <article class="card"><h3>Story and presentation</h3><p>Record any manuscript, cover, title, description, keyword and preview changes made for the local edition.</p></article>
+      <article class="card"><h3>Access and retail</h3><p>Record category, age access, price, accessibility, retailer settings, print route and territory availability.</p></article>
+      <article class="card"><h3>Edition history</h3><p>Save the exact files, source links, review date, reviewer, decisions and open questions so later revisions have a clear starting point.</p></article>
     </div>
   </div>
 </section>
 
 
     <nav class="sequence-nav" aria-label="Page sequence">
-      <a class="sequence-link" href="channels.html"><span>Previous</span><strong>← Sales &amp; Channels</strong></a>
-      <a class="sequence-link sequence-link--next" href="storyworld.html"><span>Next</span><strong>Storyworld Shelf →</strong></a>
+      <a class="sequence-link" href="channels.html"><span>Previous</span><strong>← Sales Channels</strong></a>
+      <a class="sequence-link sequence-link--next" href="storyworld.html"><span>Next</span><strong>Future Worlds →</strong></a>
     </nav>
   </main>
 
@@ -183,20 +154,21 @@
       <div class="site-footer-grid">
         <div>
           <p class="footer-kicker">Strange But True</p>
-          <p class="footer-statement">A research-led, non-explicit atlas for adult speculative love stories. Facts, rules, principles and fiction keep their own labels.</p>
+          <p class="footer-statement">An author atlas for speculative near-future fiction, science-fiction romance and romantasy.</p>
         </div>
         <div>
-          <p class="footer-kicker">Trust the boundary</p>
-          <p>This is a starting point, not legal advice or distribution clearance. All fictional intimate participants are adults.</p>
+          <p class="footer-kicker">For the explorers</p>
+          <p>Find readers, communities, gatherings, publishing paths and country-edition questions, then build new futures of love, family and emerging intelligence.</p>
         </div>
       </div>
       <div class="site-footer-base">
         <p>Research checked 15 August 2026 · © 2026 Luke Nathan Hayes</p>
-        <p><a href="sources.html">Sources</a> · <a href="licence.html">Licence</a> · <a href="https://auraofintelligence.github.io/strange-but-true/contact.html" rel="noopener">Contact</a> · <a href="https://github.com/auraofintelligence/strange-but-true-desire-atlas" rel="noopener">GitHub</a></p>
+        <p><a href="consent.html">Agency Compass</a> · <a href="sources.html">Sources</a> · <a href="licence.html">Licence & Contact</a> · <a href="https://github.com/auraofintelligence/strange-but-true-desire-atlas" rel="noopener">GitHub</a></p>
       </div>
     </footer>
     <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
-  <script src="assets/site-data.js?v=20260815c"></script>
-  <script src="assets/app.js?v=20260815c" defer></script>
+  <script src="assets/site-data.js?v=20260815g"></script>
+  <script src="assets/vendor/leaflet/leaflet.js?v=1.9.4" defer></script>
+  <script src="assets/app.js?v=20260815g" defer></script>
 </body>
 </html>

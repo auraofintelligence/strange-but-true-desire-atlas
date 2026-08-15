@@ -2,7 +2,7 @@
   "name": "strange-but-true-desire-atlas",
   "version": "1.0.0",
   "private": true,
-  "description": "A global atlas of readers, gatherings, markets and lawful routes for speculative love stories.",
+  "description": "An author atlas for speculative-romance audiences, communities, events, markets, sales routes, country editions and future worlds.",
   "type": "module",
   "scripts": {
     "build": "node tools/build-site.mjs",
@@ -13,4 +13,3 @@
     "node": ">=20"
   }
 }
-

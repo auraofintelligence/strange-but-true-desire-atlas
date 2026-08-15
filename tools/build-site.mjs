@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { groups, pages, site } from "./site-config.mjs";
+import { pages, site } from "./site-config.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -19,26 +19,13 @@ function pageUrl(page) {
 }
 
 function renderNavigation(currentPage) {
-  const groupMarkup = groups.map((group) => {
-    const links = pages
-      .filter((page) => page.group === group)
-      .map((page) => {
-        const current = page.file === currentPage.file ? ' aria-current="page"' : "";
-        return `<li><a href="${page.file}"${current}>${escapeHtml(page.nav)}</a></li>`;
-      })
-      .join("\n");
-
-    const menuId = `nav-${group.toLowerCase()}`;
-    return `
-      <li class="nav-group">
-        <button class="nav-group-toggle" type="button" aria-expanded="false" aria-controls="${menuId}">
-          ${escapeHtml(group)} <span aria-hidden="true">⌄</span>
-        </button>
-        <ul class="nav-submenu" id="${menuId}">${links}</ul>
-      </li>`;
+  const primaryPages = pages.filter((page) => page.primary);
+  const primaryMarkup = primaryPages.map((page) => {
+    const current = page.file === currentPage.file ? ' aria-current="page"' : "";
+    return `<li><a class="nav-direct-link" href="${page.file}"${current}>${escapeHtml(page.nav)}</a></li>`;
   }).join("\n");
 
-  const noScriptLinks = pages
+  const noScriptLinks = primaryPages
     .map((page) => `<li><a href="${page.file}">${escapeHtml(page.nav)}</a></li>`)
     .join("\n");
 
@@ -55,7 +42,7 @@ function renderNavigation(currentPage) {
           <span>Menu</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-          <ul class="nav-list">${groupMarkup}</ul>
+          <ul class="nav-list">${primaryMarkup}</ul>
         </nav>
         <noscript><nav class="nojs-nav" aria-label="Primary navigation without JavaScript"><ul>${noScriptLinks}</ul></nav></noscript>
       </div>
@@ -72,16 +59,19 @@ function renderHero(page) {
           <p class="eyebrow">${escapeHtml(page.eyebrow)}</p>
           <h1>${escapeHtml(page.heading)}</h1>
           <p>${escapeHtml(page.lead)}</p>
-          ${page.file === "index.html" ? '<div class="hero-actions"><a class="button button--primary" href="readers.html">Enter the atlas</a><a class="button button--glass" href="ledger.html">See the truth labels</a></div>' : ""}
+          ${page.file === "index.html" ? '<div class="hero-actions"><a class="button button--primary" href="tribe.html">Find your people</a><a class="button button--glass" href="countries.html">Explore country editions</a></div>' : ""}
         </div>
       </div>
       <p class="art-credit">Original generative artwork · 2026</p>
     </section>`;
 }
 
-function renderSequence(currentIndex) {
-  const previous = currentIndex > 0 ? pages[currentIndex - 1] : null;
-  const next = currentIndex < pages.length - 1 ? pages[currentIndex + 1] : null;
+function renderSequence(currentPage) {
+  const journey = pages.filter((page) => page.file === "index.html" || page.primary);
+  const currentIndex = journey.findIndex((page) => page.file === currentPage.file);
+  if (currentIndex < 0) return "";
+  const previous = currentIndex > 0 ? journey[currentIndex - 1] : null;
+  const next = currentIndex < journey.length - 1 ? journey[currentIndex + 1] : null;
   if (!previous && !next) return "";
 
   return `
@@ -97,22 +87,22 @@ function renderFooter() {
       <div class="site-footer-grid">
         <div>
           <p class="footer-kicker">Strange But True</p>
-          <p class="footer-statement">A research-led, non-explicit atlas for adult speculative love stories. Facts, rules, principles and fiction keep their own labels.</p>
+          <p class="footer-statement">An author atlas for speculative near-future fiction, science-fiction romance and romantasy.</p>
         </div>
         <div>
-          <p class="footer-kicker">Trust the boundary</p>
-          <p>This is a starting point, not legal advice or distribution clearance. All fictional intimate participants are adults.</p>
+          <p class="footer-kicker">For the explorers</p>
+          <p>Find readers, communities, gatherings, publishing paths and country-edition questions, then build new futures of love, family and emerging intelligence.</p>
         </div>
       </div>
       <div class="site-footer-base">
         <p>Research checked ${escapeHtml(site.checkedAt)} · © 2026 Luke Nathan Hayes</p>
-        <p><a href="sources.html">Sources</a> · <a href="licence.html">Licence</a> · <a href="${site.contactUrl}" rel="noopener">Contact</a> · <a href="${site.repoUrl}" rel="noopener">GitHub</a></p>
+        <p><a href="consent.html">Agency Compass</a> · <a href="sources.html">Sources</a> · <a href="licence.html">Licence & Contact</a> · <a href="${site.repoUrl}" rel="noopener">GitHub</a></p>
       </div>
     </footer>
     <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>`;
 }
 
-for (const [index, page] of pages.entries()) {
+for (const page of pages) {
   const fragment = await readFile(resolve(repoRoot, "content", page.file), "utf8");
   const document = `<!doctype html>
 <html lang="en-AU" id="top">
@@ -134,6 +124,7 @@ for (const [index, page] of pages.entries()) {
   <link rel="canonical" href="${pageUrl(page)}">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="assets/site.webmanifest">
+  ${page.mapAssets ? '<link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css?v=1.9.4">' : ""}
   <link rel="stylesheet" href="assets/styles.css?v=${site.assetVersion}">
   <script>document.documentElement.classList.add("js");</script>
 </head>
@@ -142,10 +133,11 @@ for (const [index, page] of pages.entries()) {
   ${renderHero(page)}
   <main id="main-content" tabindex="-1">
     ${fragment}
-    ${renderSequence(index)}
+    ${renderSequence(page)}
   </main>
   ${renderFooter()}
   <script src="assets/site-data.js?v=${site.assetVersion}"></script>
+  ${page.mapAssets ? '<script src="assets/vendor/leaflet/leaflet.js?v=1.9.4" defer></script>' : ""}
   <script src="assets/app.js?v=${site.assetVersion}" defer></script>
 </body>
 </html>

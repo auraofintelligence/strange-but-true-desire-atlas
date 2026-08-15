@@ -2,6 +2,17 @@
   "use strict";
 
   const data = window.DESIRE_ATLAS_DATA;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const routeMapState = {
+    map: null,
+    markers: new Map(),
+    europeCluster: null,
+    resetBounds: null,
+    activeFilter: "all",
+    movementButton: null,
+    movementEnabled: false
+  };
+  const europeanClusterIds = new Set(["united-kingdom", "european-union", "germany", "france"]);
 
   function make(tag, className, text) {
     const element = document.createElement(tag);
@@ -190,7 +201,7 @@
       for (const fact of [item.route, item.formats, item.model]) facts.append(make("span", "", fact));
       card.append(facts);
       card.append(make("p", "", item.useful));
-      card.append(make("p", "boundary-box", `Boundary: ${item.boundary}`));
+      card.append(make("p", "boundary-box", `Watch for: ${item.boundary}`));
       const sourceList = make("ul", "channel-sources");
       for (const source of item.sources) {
         const itemElement = make("li");
@@ -206,9 +217,14 @@
   function renderCountries(filter = "all") {
     const container = document.querySelector("#country-grid");
     if (!container || !data) return;
+    routeMapState.activeFilter = filter;
     const matches = data.countries.filter((item) => filter === "all" || item.route === filter);
     announceResults("country-status", matches.length, matches.length === 1 ? "country-edition record" : "country-edition records");
-    if (!matches.length) return setEmpty(container, "No country-edition records match this route view.");
+    if (!matches.length) {
+      setEmpty(container, "No country-edition records match this route view.");
+      updateRouteMapMarkers(filter);
+      return;
+    }
 
     const fragment = document.createDocumentFragment();
     for (const item of matches) {
@@ -233,30 +249,287 @@
       fragment.append(card);
     }
     container.replaceChildren(fragment);
+    updateRouteMapMarkers(filter);
   }
 
-  function renderGlobeNodes() {
-    const globe = document.querySelector("#route-globe");
-    if (!globe || !data) return;
-    const meridian = make("span", "globe-meridian");
-    meridian.setAttribute("aria-hidden", "true");
-    const fragment = document.createDocumentFragment();
-    fragment.append(meridian);
-    for (const item of data.countries) {
-      const button = make("button", "globe-node");
-      button.type = "button";
-      button.dataset.route = item.route;
-      button.dataset.target = item.id;
-      button.setAttribute("aria-label", `${item.name}: ${item.routeLabel}`);
-      button.title = `${item.name}: ${item.routeLabel}`;
-      button.addEventListener("click", () => {
-        const allButton = document.querySelector('[data-country-filter][data-filter="all"]');
-        if (allButton) allButton.click();
-        requestAnimationFrame(() => document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth", block: "center" }));
-      });
-      fragment.append(button);
+  function routeMapGlyph(route) {
+    if (route === "high-caution") return "!";
+    if (route === "not-activated") return "×";
+    return "R";
+  }
+
+  function makeRouteMapIcon(item) {
+    const symbol = make("span", `country-map-symbol country-map-symbol--${item.route}`);
+    symbol.setAttribute("aria-hidden", "true");
+    symbol.append(make("span", "country-map-glyph", routeMapGlyph(item.route)));
+    return window.L.divIcon({
+      className: "country-map-marker-shell",
+      html: symbol,
+      iconSize: [48, 48],
+      iconAnchor: [24, 24],
+      popupAnchor: [0, -20]
+    });
+  }
+
+  function makeRouteMapClusterIcon(count) {
+    const symbol = make("span", "country-map-cluster-symbol", String(count));
+    symbol.setAttribute("aria-hidden", "true");
+    return window.L.divIcon({
+      className: "country-map-cluster-shell",
+      html: symbol,
+      iconSize: [56, 56],
+      iconAnchor: [28, 28]
+    });
+  }
+
+  function europeItemsForFilter(filter = routeMapState.activeFilter) {
+    return data.countries.filter((item) => europeanClusterIds.has(item.id) && (filter === "all" || item.route === filter));
+  }
+
+  function zoomToEuropeCluster() {
+    if (!routeMapState.map) return;
+    routeMapState.map.setView([50.5, 7], 6, { animate: !reducedMotion.matches });
+  }
+
+  function makeRouteMapPopup(item) {
+    const popup = make("div", "route-map-popup");
+    popup.append(make("h3", "", item.name));
+
+    const route = make("p", "route-map-popup-route");
+    route.append(make("strong", "", "Edition status: "), document.createTextNode(item.routeLabel));
+    popup.append(route);
+    popup.append(make("p", "", `Representative map anchor: ${item.mapPoint.label}.`));
+
+    const link = make("a", "button button--secondary", `Read the full ${item.name} record`);
+    link.href = `#${item.id}`;
+    popup.append(link);
+    return popup;
+  }
+
+  function showRouteMapFallback(container, message) {
+    container.classList.add("is-unavailable");
+    const fallback = make("p", "route-map-fallback", message);
+    const link = make("a", "", "Browse the country-edition records below.");
+    link.href = "#country-grid";
+    fallback.append(document.createTextNode(" "), link);
+    container.replaceChildren(fallback);
+  }
+
+  function setRouteMapStatus(message) {
+    const status = document.querySelector("#route-map-status");
+    if (status) status.textContent = message;
+  }
+
+  function updateRouteMapMarkers(filter = routeMapState.activeFilter) {
+    routeMapState.activeFilter = filter;
+    if (!routeMapState.map) return;
+
+    const europeItems = europeItemsForFilter(filter);
+    const showEuropeCluster = routeMapState.map.getZoom() < 5.5 && europeItems.length > 1;
+
+    for (const [id, marker] of routeMapState.markers) {
+      const item = data.countries.find((country) => country.id === id);
+      const shouldShow = item && (filter === "all" || item.route === filter) && !(showEuropeCluster && europeanClusterIds.has(id));
+      const isShown = routeMapState.map.hasLayer(marker);
+      if (shouldShow && !isShown) marker.addTo(routeMapState.map);
+      if (!shouldShow && isShown) marker.removeFrom(routeMapState.map);
     }
-    globe.replaceChildren(fragment);
+
+    const cluster = routeMapState.europeCluster;
+    if (!cluster) return;
+    const clusterShown = routeMapState.map.hasLayer(cluster);
+    if (showEuropeCluster) {
+      const label = `Europe, ${europeItems.length} country-edition guides. Select to zoom in.`;
+      cluster.setIcon(makeRouteMapClusterIcon(europeItems.length));
+      cluster.setTooltipContent(label);
+      if (!clusterShown) cluster.addTo(routeMapState.map);
+      const element = cluster.getElement();
+      element?.setAttribute("aria-label", label);
+      element?.setAttribute("title", label);
+    } else if (clusterShown) {
+      cluster.removeFrom(routeMapState.map);
+    }
+  }
+
+  function resetRouteMapView() {
+    if (!routeMapState.map || !routeMapState.resetBounds) return;
+    routeMapState.map.fitBounds(routeMapState.resetBounds, {
+      padding: [36, 36],
+      maxZoom: 2,
+      animate: !reducedMotion.matches
+    });
+  }
+
+  function setRouteMapMovement(enabled) {
+    const map = routeMapState.map;
+    const button = routeMapState.movementButton;
+    if (!map || !button) return;
+
+    routeMapState.movementEnabled = enabled;
+    if (enabled) {
+      map.dragging.enable();
+      map.touchZoom.enable();
+    } else {
+      map.dragging.disable();
+      map.touchZoom.disable();
+    }
+    button.textContent = enabled ? "Stop moving map" : "Enable map movement";
+    button.setAttribute("aria-pressed", String(enabled));
+    setRouteMapStatus(enabled ? "Map movement enabled. Drag or pinch inside the map." : "Map movement stopped. Page scrolling is available.");
+  }
+
+  function setupRouteMap() {
+    const container = document.querySelector("#route-map");
+    if (!container || !data) return;
+    if (!window.L) {
+      showRouteMapFallback(container, "The interactive map library could not load.");
+      return;
+    }
+
+    try {
+      container.replaceChildren();
+      container.classList.remove("is-unavailable");
+      const map = window.L.map(container, {
+        center: [18, 12],
+        zoom: 1,
+        minZoom: 0,
+        maxZoom: 6,
+        zoomSnap: 0.25,
+        zoomDelta: 0.5,
+        maxBounds: [[-85, -180], [85, 180]],
+        maxBoundsViscosity: 0.9,
+        scrollWheelZoom: false,
+        keyboard: true,
+        zoomAnimation: !reducedMotion.matches,
+        fadeAnimation: !reducedMotion.matches,
+        markerZoomAnimation: !reducedMotion.matches,
+        inertia: !reducedMotion.matches
+      });
+      routeMapState.map = map;
+      container.routeMap = map;
+      map.attributionControl.setPrefix('<a href="https://leafletjs.com/">Leaflet</a>');
+
+      const tiles = window.L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        minZoom: 0,
+        maxZoom: 6,
+        noWrap: true,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+      });
+      let baseTileLoaded = false;
+      let tileWarningTimer = null;
+      tiles.on("tileload", () => {
+        baseTileLoaded = true;
+        if (tileWarningTimer) window.clearTimeout(tileWarningTimer);
+        const status = document.querySelector("#route-map-status");
+        if (status?.textContent.startsWith("The base map tiles")) status.textContent = "";
+      });
+      tiles.once("tileerror", () => {
+        tileWarningTimer = window.setTimeout(() => {
+          if (!baseTileLoaded) setRouteMapStatus("The base map tiles could not load. Country markers and the records below are still available.");
+        }, 2000);
+      });
+      tiles.addTo(map);
+
+      const bounds = window.L.latLngBounds();
+      for (const item of data.countries) {
+        const point = item.mapPoint;
+        if (!point || !Number.isFinite(point.lat) || !Number.isFinite(point.lng)) continue;
+
+        const popup = makeRouteMapPopup(item);
+        const marker = window.L.marker([point.lat, point.lng], {
+          icon: makeRouteMapIcon(item),
+          keyboard: true,
+          title: `${item.name}: ${item.routeLabel}`,
+          alt: `${item.name}. Edition status: ${item.routeLabel}.`,
+          riseOnHover: true,
+          autoPanOnFocus: true
+        });
+        marker.bindTooltip(make("span", "", item.name), { direction: "top", offset: [0, -22], opacity: 1 });
+        marker.bindPopup(popup, { maxWidth: 430, minWidth: 280, autoPanPadding: [48, 48] });
+        marker.on("add", () => {
+          const element = marker.getElement();
+          if (!element) return;
+          element.setAttribute("role", "button");
+          element.setAttribute("aria-label", `${item.name}. Edition status: ${item.routeLabel}.`);
+          element.addEventListener("keydown", (event) => {
+            if (event.key !== " ") return;
+            event.preventDefault();
+            marker.openPopup();
+          });
+        });
+        marker.on("popupopen", () => {
+          window.setTimeout(() => popup.querySelector("a")?.focus(), 0);
+        });
+        marker.addTo(map);
+        routeMapState.markers.set(item.id, marker);
+        bounds.extend([point.lat, point.lng]);
+      }
+
+      const europeCluster = window.L.marker([50.5, 7], {
+        icon: makeRouteMapClusterIcon(4),
+        keyboard: true,
+        title: "Europe country-edition guides. Select to zoom in.",
+        alt: "Europe country-edition guides. Select to zoom in.",
+        riseOnHover: true
+      });
+      europeCluster.bindTooltip("Europe country-edition guides. Select to zoom in.", { direction: "top", offset: [0, -26], opacity: 1 });
+      europeCluster.on("click", zoomToEuropeCluster);
+      europeCluster.on("add", () => {
+        const element = europeCluster.getElement();
+        if (!element) return;
+        element.setAttribute("role", "button");
+        element.addEventListener("keydown", (event) => {
+          if (event.key !== " ") return;
+          event.preventDefault();
+          zoomToEuropeCluster();
+        });
+      });
+      routeMapState.europeCluster = europeCluster;
+
+      if (!routeMapState.markers.size) throw new Error("No valid country map points were found.");
+      routeMapState.resetBounds = bounds;
+      resetRouteMapView();
+      updateRouteMapMarkers(routeMapState.activeFilter);
+      map.on("zoomend", () => updateRouteMapMarkers(routeMapState.activeFilter));
+
+      const resetButton = document.querySelector("#route-map-reset");
+      resetButton?.addEventListener("click", resetRouteMapView);
+
+      const movementButton = document.querySelector("#route-map-movement");
+      routeMapState.movementButton = movementButton;
+      if (movementButton && window.matchMedia("(pointer: coarse)").matches) {
+        movementButton.hidden = false;
+        setRouteMapMovement(false);
+        movementButton.addEventListener("click", () => setRouteMapMovement(!routeMapState.movementEnabled));
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        if (map._popup) {
+          const source = map._popup._source;
+          map.closePopup();
+          source?.getElement()?.focus();
+          event.preventDefault();
+          return;
+        }
+        if (routeMapState.movementEnabled) {
+          setRouteMapMovement(false);
+          movementButton?.focus();
+        }
+      });
+
+      window.setTimeout(() => map.invalidateSize(), 0);
+    } catch (error) {
+      console.error("The country route map could not initialise.", error);
+      try {
+        routeMapState.map?.remove();
+      } catch {
+        // The readable fallback below remains available even if cleanup fails.
+      }
+      routeMapState.map = null;
+      routeMapState.markers.clear();
+      showRouteMapFallback(container, "The interactive map is temporarily unavailable.");
+    }
   }
 
   function renderSources(filter = "all") {
@@ -342,7 +615,7 @@
   renderEvents();
   renderChannels();
   renderCountries();
-  renderGlobeNodes();
+  setupRouteMap();
   renderSources();
 
   setupFilterButtons("[data-community-filter]", renderCommunities);
