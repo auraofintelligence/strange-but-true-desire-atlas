@@ -50,7 +50,7 @@ function renderNavigation(currentPage) {
           <img src="assets/favicon.svg" width="42" height="42" alt="">
           <span><strong>The Desire Atlas</strong><small>Strange But True</small></span>
         </a>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">
           <span class="menu-toggle-lines" aria-hidden="true"></span>
           <span>Menu</span>
         </button>

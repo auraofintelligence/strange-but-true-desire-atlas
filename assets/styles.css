@@ -920,6 +920,7 @@ html:not(.js) .site-nav {
 
 .audience-controls {
   padding: clamp(1.25rem, 3vw, 2rem);
+  color: var(--ink);
   background: white;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -1343,6 +1344,10 @@ input[type="range"] {
   box-shadow: var(--shadow-soft);
 }
 
+.table-scroll-hint {
+  display: none;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -1739,6 +1744,304 @@ tr:last-child td {
 
   .art-credit {
     display: none;
+  }
+}
+
+/*
+ * Full-site legibility pass.
+ * The regular paragraph size is the minimum visible type size everywhere.
+ */
+:root {
+  --text-floor: 1.25rem;
+  --display: "Segoe UI", Aptos, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  font-size: var(--text-floor);
+  line-height: 1.7;
+}
+
+small,
+caption,
+cite {
+  font-size: var(--text-floor);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.18;
+}
+
+h2 {
+  font-size: clamp(2.4rem, 4vw, 3.5rem);
+}
+
+h3 {
+  font-size: clamp(1.55rem, 2vw, 2rem);
+  line-height: 1.25;
+}
+
+h4 {
+  font-size: 1.4rem;
+}
+
+.brand strong,
+.truth-ribbon strong,
+.door-card h3,
+.reality-card h3,
+.sequence-link strong,
+.footer-statement {
+  font-family: var(--display);
+}
+
+.brand strong {
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.brand small,
+.nav-group-toggle,
+.nojs-nav a,
+.nav-submenu a,
+.eyebrow,
+.section-kicker,
+.footer-kicker,
+.art-credit,
+.truth-ribbon span,
+.door-number,
+.badge,
+.source-type,
+.route-badge,
+.event-status,
+.metric-scope,
+.card-meta,
+.source-meta,
+.last-checked,
+.card-facts span,
+.etiquette,
+.constellation-node,
+.bar-legend,
+.result-card span,
+th,
+.sequence-link span,
+.site-footer-base p {
+  font-size: var(--text-floor);
+}
+
+.brand small,
+.eyebrow,
+.section-kicker,
+.footer-kicker,
+.truth-ribbon span,
+.door-number,
+.badge,
+.source-type,
+.route-badge,
+.event-status,
+th,
+.sequence-link span {
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  text-transform: none;
+}
+
+.section-kicker {
+  color: #7c2156;
+}
+
+.section--dark .section-kicker,
+.section--plum .section-kicker {
+  color: #ffd0ad;
+}
+
+.nav-group-toggle,
+.nav-submenu a,
+.nojs-nav a {
+  line-height: 1.4;
+}
+
+.page-hero-copy h1 {
+  font-family: var(--display);
+  font-size: clamp(3.2rem, 6.3vw, 5.6rem);
+  letter-spacing: -0.025em;
+  line-height: 1.06;
+}
+
+.page-hero:not(.page-hero--home) .page-hero-copy h1 {
+  font-size: clamp(3rem, 5.4vw, 4.8rem);
+}
+
+.page-hero-copy > p:not(.eyebrow),
+.section-intro > :last-child,
+.prose p,
+.prose li {
+  font-size: var(--text-floor);
+}
+
+.lead {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+}
+
+.truth-ribbon a {
+  min-height: 10.5rem;
+  padding: 1.5rem;
+}
+
+.truth-ribbon strong {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.door-card h3 {
+  font-size: 1.85rem;
+  line-height: 1.25;
+}
+
+.badge,
+.source-type,
+.route-badge,
+.event-status {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.8rem;
+}
+
+.metric-scope,
+.card-meta,
+.source-meta,
+.last-checked,
+.card-facts span,
+.etiquette,
+.bar-legend,
+.result-card span,
+.site-footer-base p {
+  line-height: 1.55;
+}
+
+.constellation {
+  min-height: 42rem;
+}
+
+.constellation-node {
+  width: calc(6.5rem + (var(--weight) * 0.05rem));
+  line-height: 1.25;
+}
+
+.sequence-link strong {
+  font-size: 1.45rem;
+  line-height: 1.3;
+}
+
+.footer-statement {
+  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+  line-height: 1.35;
+}
+
+@media (min-width: 68.01rem) {
+  .section-intro {
+    grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 1.1fr);
+  }
+}
+
+@media (max-width: 68rem) {
+  .section-intro {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .constellation {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: 0;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .constellation::before,
+  .constellation::after {
+    display: none;
+  }
+
+  .constellation-node {
+    position: static;
+    width: auto;
+    min-height: 7rem;
+    aspect-ratio: auto;
+    border-radius: 1rem;
+    transform: none;
+  }
+
+  .table-scroll-hint {
+    display: block;
+    width: 60rem;
+    margin: 0;
+    padding: 1rem;
+    color: #4f3455;
+    background: #fff3e8;
+    border-bottom: 1px solid var(--line);
+    font-weight: 800;
+  }
+
+  table {
+    min-width: 60rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .brand strong {
+    font-size: 1.35rem;
+  }
+
+  .page-hero-copy h1,
+  .page-hero:not(.page-hero--home) .page-hero-copy h1 {
+    font-size: clamp(2.75rem, 12vw, 3.6rem);
+    line-height: 1.08;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  .truth-ribbon a,
+  .truth-ribbon a:nth-child(3) {
+    min-height: 0;
+  }
+
+  .sequence-link strong {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .site-header-inner {
+    gap: 0.75rem;
+  }
+
+  .brand img {
+    width: 2.3rem;
+    height: 2.3rem;
+  }
+
+  .brand strong {
+    font-size: var(--text-floor);
+  }
+
+  .menu-toggle > span:last-child {
+    display: none;
+  }
+
+  .menu-toggle {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0.55rem;
+  }
+
+  .constellation {
+    grid-template-columns: 1fr;
   }
 }
 
