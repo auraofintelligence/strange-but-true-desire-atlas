@@ -8,10 +8,10 @@ It brings together:
 - communities, forums, conferences and events;
 - market signals and sales-volume planning;
 - publishing and distribution channels;
-- interactive country-edition guides; and
+- a 255-destination world coverage map: 195 states, 58 islands and territories, two separately tracked markets, and interactive country-edition guides; and
 - the future ideas behind the books, including emerging intelligence, global group marriage, Love United Nations and joyful responsible abundance.
 
-The site deliberately lets public evidence, Luke's working goals and speculative future worlds sit beside one another. Evidence keeps a source and date; goals remain adjustable; future worlds remain possibilities.
+The site deliberately lets public evidence, Luke's working goals, beliefs and speculative future worlds sit beside one another. Evidence keeps a source and date; goals remain adjustable; future worlds remain Luke's own creative territories rather than factual claims.
 
 ## Public pages
 
@@ -27,7 +27,7 @@ The editable page bodies live in `content/`. Shared page details and navigation 
 
 ## Public research
 
-Market, platform, event, community and country claims link to their public sources and checked dates. The Country Guides are edition-planning starting points, not completed legal clearance.
+Market, platform, event, community and country claims link to their public sources and checked dates. The world map starts with 195 states, 58 additional islands and territories, and two separately tracked markets. Ten country guides and one EU overlay currently have deeper edition sources underway.
 
 The Sales Channels page begins with Luke's public $5,000 monthly author-revenue goal and lets visitors test other assumptions locally in the browser.
 
@@ -37,7 +37,7 @@ Five original cinematic hero images were generated for this project. The prompt 
 
 ## Interactive map
 
-The Countries page uses a locally bundled copy of Leaflet 1.9.4 and live OpenStreetMap tiles. Country markers are representative navigation anchors. Third-party credits and licence details are recorded in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+The Countries page uses a locally bundled copy of Leaflet 1.9.4, live OpenStreetMap tiles and a generated 255-destination coverage file. Run `npm run refresh:world` only when deliberately refreshing the public country baseline. Markers are representative navigation anchors; research state never means legal permission or prohibition. Third-party credits and licence details are recorded in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Licence
 

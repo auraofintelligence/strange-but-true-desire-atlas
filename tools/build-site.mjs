@@ -136,6 +136,7 @@ for (const page of pages) {
     ${renderSequence(page)}
   </main>
   ${renderFooter()}
+  ${page.mapAssets ? `<script src="assets/world-coverage.js?v=${site.assetVersion}"></script>` : ""}
   <script src="assets/site-data.js?v=${site.assetVersion}"></script>
   ${page.mapAssets ? '<script src="assets/vendor/leaflet/leaflet.js?v=1.9.4" defer></script>' : ""}
   <script src="assets/app.js?v=${site.assetVersion}" defer></script>

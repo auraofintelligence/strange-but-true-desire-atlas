@@ -2,13 +2,17 @@
   "use strict";
 
   const data = window.DESIRE_ATLAS_DATA;
+  const world = window.DESIRE_ATLAS_WORLD;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const routeMapState = {
     map: null,
     markers: new Map(),
+    coverageMarkers: new Map(),
     europeCluster: null,
     resetBounds: null,
     activeFilter: "all",
+    activeCoverageFilter: "all",
+    coverageVisibleIds: new Set(),
     movementButton: null,
     movementEnabled: false
   };
@@ -214,6 +218,97 @@
     container.replaceChildren(fragment);
   }
 
+  function coverageStageLabel(place) {
+    if (place.homeAnchor) return "Home anchor · recurring return";
+    if (place.guideId) return "Official-source edition start";
+    return "Baseline created · signal scan queued";
+  }
+
+  function coverageKindLabel(place) {
+    if (place.kind === "country") return "State baseline";
+    if (place.kind === "tracked-market") return "Separately tracked market";
+    return "Island / territory / archipelago";
+  }
+
+  function focusWorldPlace(id) {
+    const place = world?.places.find((item) => item.id === id);
+    const map = routeMapState.map;
+    if (!place || !map) return;
+    const marker = place.guideId ? routeMapState.markers.get(place.guideId) : routeMapState.coverageMarkers.get(place.id);
+    if (!marker) return;
+    if (!map.hasLayer(marker)) marker.addTo(map);
+    const target = marker.getLatLng();
+    map.setView(target, place.guideId || place.kind !== "country" ? 6 : 4, { animate: !reducedMotion.matches });
+    marker.openPopup();
+    setRouteMapStatus(`${place.name} centred on the map. ${coverageStageLabel(place)}.`);
+  }
+
+  function renderWorldCoverage(filter = routeMapState.activeCoverageFilter) {
+    const body = document.querySelector("#coverage-table-body");
+    if (!body || !world) return;
+    routeMapState.activeCoverageFilter = filter;
+    const search = (document.querySelector("#coverage-search")?.value || "").trim().toLocaleLowerCase("en-AU");
+    const region = document.querySelector("#coverage-region")?.value || "all";
+
+    const matches = world.places.filter((place) => {
+      const filterMatch = filter === "all"
+        || (filter === "country" && place.kind === "country")
+        || (filter === "island-territory" && place.kind === "island-territory")
+        || (filter === "tracked-market" && place.kind === "tracked-market")
+        || (filter === "guide" && Boolean(place.guideId))
+        || (filter === "home" && place.homeAnchor);
+      const regionMatch = region === "all" || place.region === region;
+      const searchMatch = !search || [place.name, place.code, place.region, place.subregion, place.relationship]
+        .some((value) => String(value || "").toLocaleLowerCase("en-AU").includes(search));
+      return filterMatch && regionMatch && searchMatch;
+    });
+
+    routeMapState.coverageVisibleIds = new Set(matches.map((place) => place.id));
+    const fragment = document.createDocumentFragment();
+    for (const place of matches) {
+      const row = make("tr");
+      const nameCell = make("td");
+      const button = make("button", "coverage-place-button", place.name);
+      button.type = "button";
+      button.addEventListener("click", () => focusWorldPlace(place.id));
+      nameCell.append(button);
+      if (place.homeAnchor) nameCell.append(make("span", "home-anchor-label", "Minjerribah return base"));
+      row.append(nameCell);
+      row.append(make("td", "", coverageKindLabel(place)));
+      row.append(make("td", "", place.region));
+      row.append(make("td", "", coverageStageLabel(place)));
+      row.append(make("td", "", place.guideId ? "Edition/law sources started" : "8 signal lanes ready"));
+      fragment.append(row);
+    }
+
+    if (!matches.length) {
+      const row = make("tr");
+      const cell = make("td", "empty-state", "No world-coverage records match this view.");
+      cell.colSpan = 5;
+      row.append(cell);
+      fragment.append(row);
+    }
+    body.replaceChildren(fragment);
+    announceResults("coverage-status", matches.length, matches.length === 1 ? "world destination" : "world destinations");
+    updateCoverageMapMarkers();
+    updateRouteMapMarkers(routeMapState.activeFilter);
+  }
+
+  function setupWorldCoverage() {
+    const search = document.querySelector("#coverage-search");
+    const region = document.querySelector("#coverage-region");
+    if (!search || !region || !world) return;
+
+    const regions = Array.from(new Set(world.places.map((place) => place.region))).sort((a, b) => a.localeCompare(b, "en"));
+    for (const name of regions) {
+      const option = make("option", "", name);
+      option.value = name;
+      region.append(option);
+    }
+    search.addEventListener("input", () => renderWorldCoverage());
+    region.addEventListener("change", () => renderWorldCoverage());
+  }
+
   function renderCountries(filter = "all") {
     const container = document.querySelector("#country-grid");
     if (!container || !data) return;
@@ -253,9 +348,9 @@
   }
 
   function routeMapGlyph(route) {
-    if (route === "high-caution") return "!";
-    if (route === "not-activated") return "×";
-    return "R";
+    if (route === "high-caution") return "L";
+    if (route === "not-activated") return "Q";
+    return "S";
   }
 
   function makeRouteMapIcon(item) {
@@ -282,8 +377,22 @@
     });
   }
 
+  function coverageAllowsGuide(id) {
+    const place = world?.places.find((item) => item.guideId === id);
+    if (place) return routeMapState.coverageVisibleIds.has(place.id);
+    if (id === "european-union") {
+      if (!["all", "guide"].includes(routeMapState.activeCoverageFilter)) return false;
+      const region = document.querySelector("#coverage-region")?.value || "all";
+      const search = (document.querySelector("#coverage-search")?.value || "").trim().toLocaleLowerCase("en-AU");
+      const regionMatch = region === "all" || region === "Europe";
+      const searchMatch = !search || ["european union", "eu", "europe"].some((value) => value.includes(search));
+      return regionMatch && searchMatch;
+    }
+    return true;
+  }
+
   function europeItemsForFilter(filter = routeMapState.activeFilter) {
-    return data.countries.filter((item) => europeanClusterIds.has(item.id) && (filter === "all" || item.route === filter));
+    return data.countries.filter((item) => europeanClusterIds.has(item.id) && (filter === "all" || item.route === filter) && coverageAllowsGuide(item.id));
   }
 
   function zoomToEuropeCluster() {
@@ -296,7 +405,7 @@
     popup.append(make("h3", "", item.name));
 
     const route = make("p", "route-map-popup-route");
-    route.append(make("strong", "", "Edition status: "), document.createTextNode(item.routeLabel));
+    route.append(make("strong", "", "Research state: "), document.createTextNode(item.routeLabel));
     popup.append(route);
     popup.append(make("p", "", `Representative map anchor: ${item.mapPoint.label}.`));
 
@@ -304,6 +413,43 @@
     link.href = `#${item.id}`;
     popup.append(link);
     return popup;
+  }
+
+  function makeWorldCoveragePopup(place) {
+    const popup = make("div", "route-map-popup");
+    popup.append(make("h3", "", place.name));
+    popup.append(make("p", "route-map-popup-route", coverageStageLabel(place)));
+    popup.append(make("p", "", `${coverageKindLabel(place)} · ${place.region}. ${place.relationship}.`));
+    if (place.homeAnchor) popup.append(make("p", "", "Minjerribah is the recurring home anchor across the eleven-year world journey."));
+    popup.append(make("p", "", "The repeatable record is ready for audience, language, format, community, channel, distribution, law and visit signals."));
+    const link = make("a", "button button--secondary", "Open the world coverage index");
+    link.href = "#world-coverage";
+    popup.append(link);
+    return popup;
+  }
+
+  function makeCoverageCircleOptions(place) {
+    if (place.homeAnchor) {
+      return { radius: 9, color: "#160d31", weight: 3, fillColor: "#f4b95f", fillOpacity: 1, keyboard: false };
+    }
+    if (place.kind === "island-territory") {
+      return { radius: 5.5, color: "#351646", weight: 1.5, fillColor: "#ff715d", fillOpacity: 0.88, keyboard: false };
+    }
+    if (place.kind === "tracked-market") {
+      return { radius: 6.5, color: "#160d31", weight: 2, fillColor: "#41c7b0", fillOpacity: 0.95, keyboard: false };
+    }
+    return { radius: 3.8, color: "#30276b", weight: 1, fillColor: "#7957ff", fillOpacity: 0.72, keyboard: false };
+  }
+
+  function updateCoverageMapMarkers() {
+    const map = routeMapState.map;
+    if (!map) return;
+    for (const [id, marker] of routeMapState.coverageMarkers) {
+      const shouldShow = routeMapState.coverageVisibleIds.has(id);
+      const isShown = map.hasLayer(marker);
+      if (shouldShow && !isShown) marker.addTo(map);
+      if (!shouldShow && isShown) marker.removeFrom(map);
+    }
   }
 
   function showRouteMapFallback(container, message) {
@@ -329,7 +475,7 @@
 
     for (const [id, marker] of routeMapState.markers) {
       const item = data.countries.find((country) => country.id === id);
-      const shouldShow = item && (filter === "all" || item.route === filter) && !(showEuropeCluster && europeanClusterIds.has(id));
+      const shouldShow = item && coverageAllowsGuide(id) && (filter === "all" || item.route === filter) && !(showEuropeCluster && europeanClusterIds.has(id));
       const isShown = routeMapState.map.hasLayer(marker);
       if (shouldShow && !isShown) marker.addTo(routeMapState.map);
       if (!shouldShow && isShown) marker.removeFrom(routeMapState.map);
@@ -431,6 +577,20 @@
       tiles.addTo(map);
 
       const bounds = window.L.latLngBounds();
+      if (world) {
+        if (!routeMapState.coverageVisibleIds.size) routeMapState.coverageVisibleIds = new Set(world.places.map((place) => place.id));
+        for (const place of world.places) {
+          if (!Number.isFinite(place.lat) || !Number.isFinite(place.lng)) continue;
+          bounds.extend([place.lat, place.lng]);
+          if (place.guideId) continue;
+          const marker = window.L.circleMarker([place.lat, place.lng], makeCoverageCircleOptions(place));
+          marker.bindTooltip(make("span", "", place.name), { direction: "top", opacity: 1 });
+          marker.bindPopup(makeWorldCoveragePopup(place), { maxWidth: 430, minWidth: 280, autoPanPadding: [48, 48] });
+          if (routeMapState.coverageVisibleIds.has(place.id)) marker.addTo(map);
+          routeMapState.coverageMarkers.set(place.id, marker);
+        }
+      }
+
       for (const item of data.countries) {
         const point = item.mapPoint;
         if (!point || !Number.isFinite(point.lat) || !Number.isFinite(point.lng)) continue;
@@ -440,7 +600,7 @@
           icon: makeRouteMapIcon(item),
           keyboard: true,
           title: `${item.name}: ${item.routeLabel}`,
-          alt: `${item.name}. Edition status: ${item.routeLabel}.`,
+          alt: `${item.name}. Research state: ${item.routeLabel}.`,
           riseOnHover: true,
           autoPanOnFocus: true
         });
@@ -450,7 +610,7 @@
           const element = marker.getElement();
           if (!element) return;
           element.setAttribute("role", "button");
-          element.setAttribute("aria-label", `${item.name}. Edition status: ${item.routeLabel}.`);
+          element.setAttribute("aria-label", `${item.name}. Research state: ${item.routeLabel}.`);
           element.addEventListener("keydown", (event) => {
             if (event.key !== " ") return;
             event.preventDefault();
@@ -528,6 +688,7 @@
       }
       routeMapState.map = null;
       routeMapState.markers.clear();
+      routeMapState.coverageMarkers.clear();
       showRouteMapFallback(container, "The interactive map is temporarily unavailable.");
     }
   }
@@ -549,34 +710,10 @@
       card.append(make("h3", "", source.name));
       card.append(make("p", "source-meta", source.category));
       card.append(make("p", "", source.scope));
-      addExternalLink(card, "Open primary or official source ↗", source.url, "source-link");
+      addExternalLink(card, "Open source ↗", source.url, "source-link");
       fragment.append(card);
     }
     container.replaceChildren(fragment);
-  }
-
-  function setupAudienceLab() {
-    const ranges = Array.from(document.querySelectorAll("[data-audience-range]"));
-    const summary = document.querySelector("#hypothesis-summary");
-    if (!ranges.length) return;
-
-    const update = () => {
-      const values = [];
-      for (const input of ranges) {
-        const value = Number(input.value);
-        const id = input.dataset.segment;
-        const output = document.querySelector(`[data-audience-output="${id}"]`);
-        const node = document.querySelector(`[data-segment="${id}"]`);
-        if (output) output.textContent = String(value);
-        if (node) node.style.setProperty("--weight", String(value));
-        values.push({ label: input.dataset.label, value });
-      }
-      values.sort((a, b) => b.value - a.value);
-      if (summary) summary.textContent = `Current emphasis: ${values[0].label} and ${values[1].label}. These are planning weights, not measured audience shares.`;
-    };
-
-    for (const input of ranges) input.addEventListener("input", update);
-    update();
   }
 
   function setupSalesCalculator() {
@@ -608,18 +745,20 @@
 
   setupNavigation();
   setupBackToTop();
-  setupAudienceLab();
   setupSalesCalculator();
   renderMarketSignals();
   renderCommunities();
   renderEvents();
   renderChannels();
+  setupWorldCoverage();
+  renderWorldCoverage();
   renderCountries();
   setupRouteMap();
   renderSources();
 
   setupFilterButtons("[data-community-filter]", renderCommunities);
   setupFilterButtons("[data-event-filter]", renderEvents);
+  setupFilterButtons("[data-coverage-filter]", renderWorldCoverage);
   setupFilterButtons("[data-country-filter]", renderCountries);
   setupFilterButtons("[data-source-filter]", renderSources);
 })();

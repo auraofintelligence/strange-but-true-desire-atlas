@@ -1071,6 +1071,72 @@ input[type="range"] {
   border-radius: var(--radius);
 }
 
+.evidence-bars {
+  display: grid;
+  margin: 1.15rem 0;
+  gap: 0.7rem;
+}
+
+.evidence-bar {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, 1fr) minmax(7rem, 1.4fr) 3.5rem;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.evidence-bar > span {
+  font-weight: 750;
+}
+
+.evidence-bar > i {
+  display: block;
+  height: 0.75rem;
+  overflow: hidden;
+  background: #e7e1ed;
+  border-radius: 999px;
+}
+
+.evidence-bar > i > b {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--rose), var(--violet));
+  border-radius: inherit;
+}
+
+.evidence-bar > strong {
+  color: #792052;
+  text-align: right;
+}
+
+.compact-table {
+  margin: 1rem 0;
+}
+
+.compact-table table {
+  min-width: 0;
+}
+
+.compact-table th,
+.compact-table td {
+  padding: 0.65rem 0.55rem;
+}
+
+.evidence-note {
+  margin-top: 1.4rem;
+  padding: 1rem 1.15rem;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.8rem;
+}
+
+.section--paper .evidence-note,
+.section--tint .evidence-note {
+  color: var(--ink);
+  background: var(--mist);
+  border-color: var(--line);
+}
+
 .bar-stack {
   display: flex;
   height: 1.25rem;
@@ -1455,6 +1521,132 @@ input[type="range"] {
 
 .route-legend-item .country-map-symbol {
   margin-top: 0.35rem;
+}
+
+.coverage-dot {
+  display: block;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin: 0.65rem auto 0;
+  background: #7957ff;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #30276b;
+}
+
+.coverage-dot--extra {
+  width: 1.55rem;
+  height: 1.55rem;
+  background: #ff715d;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0 2px #351646;
+  transform: rotate(45deg) scale(0.82);
+}
+
+.coverage-dot--market {
+  width: 1.55rem;
+  height: 1.55rem;
+  background: #41c7b0;
+  box-shadow: 0 0 0 2px #160d31;
+}
+
+.coverage-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+}
+
+.coverage-summary-grid article {
+  padding: 1.25rem;
+  background: linear-gradient(145deg, #fff, #fff4ed);
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.coverage-summary-grid strong {
+  display: block;
+  color: #7c2156;
+  font-family: var(--display);
+  font-size: clamp(2.1rem, 4vw, 3.5rem);
+  line-height: 1;
+}
+
+.coverage-summary-grid span {
+  display: block;
+  margin-top: 0.6rem;
+  font-weight: 750;
+}
+
+.signal-family-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 1.25rem 0 2rem;
+  gap: 0.65rem;
+}
+
+.signal-family-grid span {
+  padding: 0.85rem 1rem;
+  color: #4a2850;
+  background: var(--mist);
+  border-left: 0.35rem solid var(--rose);
+  border-radius: 0.6rem;
+  font-weight: 750;
+}
+
+.coverage-controls {
+  display: grid;
+  grid-template-columns: minmax(18rem, 1.4fr) minmax(14rem, 0.6fr);
+  margin: 1.25rem 0 0.5rem;
+  gap: 1rem;
+}
+
+.coverage-controls .field {
+  margin-bottom: 0;
+}
+
+.coverage-table-wrap {
+  max-height: 42rem;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+}
+
+.coverage-table {
+  min-width: 68rem;
+}
+
+.coverage-table thead {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  box-shadow: 0 2px 0 var(--line);
+}
+
+.coverage-place-button {
+  padding: 0;
+  color: #5d35ce;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 850;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
+}
+
+.coverage-place-button:hover {
+  color: #a52359;
+}
+
+.home-anchor-label {
+  display: block;
+  margin-top: 0.35rem;
+  color: #7a321f;
+  font-weight: 750;
 }
 
 .route-badge--local-review {
@@ -2313,6 +2505,33 @@ th,
 
   .route-map .leaflet-control-attribution {
     max-width: calc(100% - 0.5rem);
+  }
+}
+
+@media (max-width: 68rem) {
+  .coverage-summary-grid,
+  .signal-family-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .coverage-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 36rem) {
+  .coverage-summary-grid,
+  .signal-family-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .evidence-bar {
+    grid-template-columns: 1fr 3.5rem;
+  }
+
+  .evidence-bar > i {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 }
 

@@ -30,8 +30,11 @@ for (const page of pages) {
 
   const hasLeafletCss = html.includes("assets/vendor/leaflet/leaflet.css?v=1.9.4");
   const hasLeafletJs = html.includes("assets/vendor/leaflet/leaflet.js?v=1.9.4");
+  const hasWorldCoverage = html.includes("assets/world-coverage.js?");
   if (page.mapAssets && (!hasLeafletCss || !hasLeafletJs)) fail(page.file, "missing page-scoped Leaflet assets");
   if (!page.mapAssets && (hasLeafletCss || hasLeafletJs)) fail(page.file, "loads Leaflet outside the map page");
+  if (page.mapAssets && !hasWorldCoverage) fail(page.file, "missing page-scoped world coverage data");
+  if (!page.mapAssets && hasWorldCoverage) fail(page.file, "loads world coverage data outside the map page");
 
   for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
     const reference = match[1];
@@ -49,6 +52,7 @@ for (const required of [
   "assets/styles.css",
   "assets/app.js",
   "assets/site-data.js",
+  "assets/world-coverage.js",
   "assets/favicon.svg",
   "assets/vendor/leaflet/leaflet.css",
   "assets/vendor/leaflet/leaflet.js",
@@ -98,6 +102,34 @@ for (const country of countries) {
 const countriesHtml = await readFile(resolve(root, "countries.html"), "utf8");
 if (!countriesHtml.includes('id="route-map"')) fail("countries.html", "missing the interactive world map container");
 if (countriesHtml.includes('id="route-globe"')) fail("countries.html", "still contains the faux globe container");
+
+const worldSource = await readFile(resolve(root, "assets/world-coverage.js"), "utf8");
+const worldContext = { window: {} };
+vm.runInNewContext(worldSource, worldContext);
+const places = worldContext.window.DESIRE_ATLAS_WORLD?.places || [];
+const baselineCountries = places.filter((place) => place.kind === "country");
+const extraPlaces = places.filter((place) => place.kind === "island-territory");
+const trackedMarkets = places.filter((place) => place.kind === "tracked-market");
+if (places.length !== 255) fail("assets/world-coverage.js", `expected 255 destination records, found ${places.length}`);
+if (baselineCountries.length !== 195) fail("assets/world-coverage.js", `expected 195 country records, found ${baselineCountries.length}`);
+if (extraPlaces.length !== 58) fail("assets/world-coverage.js", `expected 58 island/territory records, found ${extraPlaces.length}`);
+if (trackedMarkets.length !== 2) fail("assets/world-coverage.js", `expected 2 separately tracked market records, found ${trackedMarkets.length}`);
+if (places.filter((place) => place.homeAnchor).length !== 1 || !places.some((place) => place.name === "Minjerribah" && place.homeAnchor)) {
+  fail("assets/world-coverage.js", "expected Minjerribah as the single home anchor");
+}
+const placeIds = new Set();
+const placeNames = new Set();
+const allowedKinds = new Set(["country", "island-territory", "tracked-market"]);
+for (const place of places) {
+  if (!Number.isFinite(place.lat) || !Number.isFinite(place.lng)) fail("assets/world-coverage.js", `${place.name || "destination"} is missing numeric coordinates`);
+  if (place.lat < -90 || place.lat > 90 || place.lng < -180 || place.lng > 180) fail("assets/world-coverage.js", `${place.name || "destination"} has out-of-range coordinates`);
+  if (!place.id || placeIds.has(place.id)) fail("assets/world-coverage.js", `${place.name || "destination"} has a missing or duplicate id`);
+  if (!place.name || placeNames.has(place.name)) fail("assets/world-coverage.js", `${place.name || "destination"} has a missing or duplicate name`);
+  if (!allowedKinds.has(place.kind)) fail("assets/world-coverage.js", `${place.name || "destination"} has an unknown layer kind`);
+  if (place.guideId && !countries.some((country) => country.id === place.guideId)) fail("assets/world-coverage.js", `${place.name} points to a missing country guide`);
+  placeIds.add(place.id);
+  placeNames.add(place.name);
+}
 
 if (failures.length) {
   console.error(`Site checks failed (${failures.length}):`);

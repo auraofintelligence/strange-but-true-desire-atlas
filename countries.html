@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Country Edition Guides · The Desire Atlas</title>
-  <meta name="description" content="An interactive country-edition guide for law, classification, access, retail and local customisation questions.">
+  <meta name="description" content="A living 255-destination world coverage map with repeatable research signals and deeper country-edition source starts.">
   <meta name="theme-color" content="#160d31">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Strange But True: The Desire Atlas">
   <meta property="og:title" content="Country Edition Guides">
-  <meta property="og:description" content="An interactive country-edition guide for law, classification, access, retail and local customisation questions.">
+  <meta property="og:description" content="A living 255-destination world coverage map with repeatable research signals and deeper country-edition source starts.">
   <meta property="og:url" content="https://auraofintelligence.github.io/strange-but-true-desire-atlas/countries.html">
   <meta property="og:image" content="https://auraofintelligence.github.io/strange-but-true-desire-atlas/assets/images/social-card.jpg">
   <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="assets/site.webmanifest">
   <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css?v=1.9.4">
-  <link rel="stylesheet" href="assets/styles.css?v=20260815g">
+  <link rel="stylesheet" href="assets/styles.css?v=20260815i">
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body data-page="countries">
@@ -61,7 +61,7 @@
         <div class="page-hero-copy">
           <p class="eyebrow">Publish / Country Editions</p>
           <h1>Build editions for the places you want to reach.</h1>
-          <p>Use the map to compare official starting points for content law, classification, access and retail, then plan the cover, metadata, preview and distribution settings for each edition.</p>
+          <p>Track 195 states, 58 additional islands and territories, and two separately tracked markets, then build audience, community, channel, edition and local signals place by place across an eleven-year world journey.</p>
 
         </div>
       </div>
@@ -71,18 +71,19 @@
     <section class="section section--dark">
   <div class="section-inner route-map-layout">
     <div class="route-map-copy">
-      <p class="section-kicker">Interactive country guide</p>
-      <h2 id="route-map-heading">Explore the real geography.</h2>
-      <p class="lead">Select a marker to open the starting point for that country edition. The map connects official sources to practical questions about the manuscript, cover, metadata, access and distribution.</p>
-      <a class="map-skip-link" href="#country-grid">Skip the map and browse the country guides</a>
-      <div class="route-legend" aria-label="Edition-research status legend">
-        <div class="route-legend-item"><span class="country-map-symbol country-map-symbol--local-review" aria-hidden="true"><span class="country-map-glyph">R</span></span><p><strong>Local edition review</strong><br>Official starting sources and edition questions are available.</p></div>
-        <div class="route-legend-item"><span class="country-map-symbol country-map-symbol--high-caution" aria-hidden="true"><span class="country-map-glyph">!</span></span><p><strong>Specialist local review</strong><br>Content, youth-access, language or market rules deserve deeper local attention.</p></div>
-        <div class="route-legend-item"><span class="country-map-symbol country-map-symbol--not-activated" aria-hidden="true"><span class="country-map-glyph">×</span></span><p><strong>Route not yet mapped</strong><br>The public distribution path remains a dedicated local research task.</p></div>
+      <p class="section-kicker">Living world coverage system</p>
+      <h2 id="route-map-heading">Track 255 destinations across one repeatable pattern.</h2>
+      <p class="lead">The baseline now includes 195 states, 58 additional islands and territories, and two separately tracked markets. It is the research field for an eleven-year journey, not a claim that the travel order is already decided.</p>
+      <a class="map-skip-link" href="#world-coverage">Skip the map and browse the world coverage index</a>
+      <div class="route-legend" aria-label="World coverage marker legend">
+        <div class="route-legend-item"><span class="coverage-dot coverage-dot--country" aria-hidden="true"></span><p><strong>195-state baseline</strong><br>Every state has a stable record ready for the same eight signal lanes.</p></div>
+        <div class="route-legend-item"><span class="coverage-dot coverage-dot--extra" aria-hidden="true"></span><p><strong>58 islands and territories</strong><br>An editable second layer includes Minjerribah as the recurring home anchor.</p></div>
+        <div class="route-legend-item"><span class="coverage-dot coverage-dot--market" aria-hidden="true"></span><p><strong>2 separately tracked markets</strong><br>Taiwan and Kosovo remain visible without the Atlas taking a sovereignty position.</p></div>
+        <div class="route-legend-item"><span class="country-map-symbol country-map-symbol--local-review" aria-hidden="true"><span class="country-map-glyph">S</span></span><p><strong>Edition sources started</strong><br>Larger markers open the first ten country records and the EU regional overlay.</p></div>
       </div>
     </div>
     <div class="route-map-panel">
-      <p class="route-map-instructions" id="route-map-instructions">Use plus and minus to zoom, drag to move, or use the arrow keys while the map is focused. Select a marker for its edition status and country-guide link.</p>
+      <p class="route-map-instructions" id="route-map-instructions">Use plus and minus to zoom, drag to move, or use the arrow keys while the map is focused. Select a small point for its baseline record or a large marker for a deeper country-edition start.</p>
       <div class="route-map-toolbar">
         <button class="button button--glass" id="route-map-reset" type="button">Reset world view</button>
         <button class="button button--glass" id="route-map-movement" type="button" aria-pressed="false" hidden>Enable map movement</button>
@@ -90,10 +91,67 @@
       <div class="route-map" id="route-map" role="region" aria-labelledby="route-map-heading" aria-describedby="route-map-instructions">
         <p class="route-map-fallback">Loading the interactive world map.</p>
       </div>
-      <noscript><p class="route-map-fallback">The interactive map and guide cards use JavaScript. The country records remain readable in the <a href="assets/site-data.js">public data file</a>.</p></noscript>
+      <noscript><p class="route-map-fallback">The interactive map and coverage table use JavaScript. The complete world baseline remains readable in the <a href="assets/world-coverage.js">public coverage file</a>, and the deeper edition records remain in <a href="assets/site-data.js">the main public data file</a>.</p></noscript>
       <p class="route-map-status" id="route-map-status" aria-live="polite"></p>
-      <p class="route-map-note">Markers use representative capital-city anchors, including Brussels for the EU overlay. Zoom into Europe to separate nearby guides. The guides are research starting points for edition planning, not completed legal clearance.</p>
+      <p class="route-map-note">Country points use geographic centroids; island and territory points use representative settlements; deeper guides use capital-city anchors. Points are for navigation, not borders, sovereignty findings or legal conclusions.</p>
     </div>
+  </div>
+</section>
+
+<section class="section section--paper" id="world-coverage">
+  <div class="section-inner">
+    <div class="section-intro">
+      <div>
+        <p class="section-kicker">The full journey field</p>
+        <h2>Build the picture place by place, signal by signal.</h2>
+      </div>
+      <div>
+        <p>Each destination starts with the same empty evidence shape. Dated audience, language, format, community, channel, distribution, law and local-observation signals can then accumulate without pretending an unresearched place has already been understood.</p>
+      </div>
+    </div>
+
+    <div class="coverage-summary-grid" aria-label="World coverage totals">
+      <article><strong>195</strong><span>world states</span></article>
+      <article><strong>58</strong><span>islands, territories and archipelagos</span></article>
+      <article><strong>2</strong><span>separately tracked markets</span></article>
+      <article><strong>10 + 1</strong><span>country source starts plus EU overlay</span></article>
+      <article><strong>8</strong><span>repeatable signal lanes per place</span></article>
+    </div>
+
+    <div class="signal-family-grid" aria-label="Repeatable research signal lanes">
+      <span>Audience & genre</span><span>Language & translation</span><span>Formats & accessibility</span><span>Communities & events</span><span>Sales & pricing</span><span>Distribution, tax & imports</span><span>Publishing & content law</span><span>Visit notes & local observation</span>
+    </div>
+
+    <div class="filter-bar" aria-label="Filter world coverage">
+      <button class="filter-button" type="button" data-coverage-filter data-filter="all" aria-pressed="true">All 255</button>
+      <button class="filter-button" type="button" data-coverage-filter data-filter="country" aria-pressed="false">195 states</button>
+      <button class="filter-button" type="button" data-coverage-filter data-filter="island-territory" aria-pressed="false">58 islands & territories</button>
+      <button class="filter-button" type="button" data-coverage-filter data-filter="tracked-market" aria-pressed="false">2 tracked markets</button>
+      <button class="filter-button" type="button" data-coverage-filter data-filter="guide" aria-pressed="false">10 deeper country starts</button>
+      <button class="filter-button" type="button" data-coverage-filter data-filter="home" aria-pressed="false">Minjerribah home anchor</button>
+    </div>
+
+    <div class="coverage-controls">
+      <div class="field">
+        <label for="coverage-search">Search the world field</label>
+        <input id="coverage-search" type="search" placeholder="Country, island, territory, code or relationship">
+      </div>
+      <div class="field">
+        <label for="coverage-region">Region</label>
+        <select id="coverage-region"><option value="all">All regions</option></select>
+      </div>
+    </div>
+
+    <p class="visually-hidden" id="coverage-status" aria-live="polite"></p>
+    <p class="table-scroll-cue">Select a place name to centre it on the map. Swipe or scroll horizontally to compare records.</p>
+    <div class="table-wrap coverage-table-wrap" tabindex="0" role="region" aria-label="Complete world destination coverage index">
+      <table class="coverage-table">
+        <thead><tr><th>Destination</th><th>Layer</th><th>Region</th><th>Research state</th><th>Signal record</th></tr></thead>
+        <tbody id="coverage-table-body"><tr><td colspan="5">Loading 255 destination records…</td></tr></tbody>
+      </table>
+    </div>
+
+    <p class="evidence-note">The 195-state definition is 193 UN member states plus the Holy See and State of Palestine as UN non-member observer states. Taiwan and Kosovo remain visible in the separate tracked-market layer; their inclusion does not ask the Atlas to settle political status.</p>
   </div>
 </section>
 
@@ -101,24 +159,24 @@
   <div class="section-inner">
     <div class="section-intro">
       <div>
-        <p class="section-kicker">Initial jurisdiction set</p>
-        <h2>Open the country-edition questions.</h2>
+        <p class="section-kicker">First deeper edition records</p>
+        <h2>Ten countries and one regional overlay have source trails underway.</h2>
       </div>
       <div>
-        <p>Each guide connects a short legal or regulatory summary to the next practical edition action. The set can grow country by country as new local sources and reviewers are added.</p>
+        <p>These records connect official law or regulator sources to practical edition questions. Their marker describes the next research step, never whether Luke is permitted to write an idea and never a blanket legal conclusion about a book that has not been locally reviewed.</p>
       </div>
     </div>
 
-    <div class="filter-bar" aria-label="Filter country editions by research status">
-      <button class="filter-button" type="button" data-country-filter data-filter="all" aria-pressed="true">All countries</button>
-      <button class="filter-button" type="button" data-country-filter data-filter="local-review" aria-pressed="false">Local edition review</button>
-      <button class="filter-button" type="button" data-country-filter data-filter="high-caution" aria-pressed="false">Specialist review</button>
-      <button class="filter-button" type="button" data-country-filter data-filter="not-activated" aria-pressed="false">Route not mapped</button>
+    <div class="filter-bar" aria-label="Filter country editions by research state">
+      <button class="filter-button" type="button" data-country-filter data-filter="all" aria-pressed="true">All source starts</button>
+      <button class="filter-button" type="button" data-country-filter data-filter="local-review" aria-pressed="false">Official sources started</button>
+      <button class="filter-button" type="button" data-country-filter data-filter="high-caution" aria-pressed="false">Local specialist next</button>
+      <button class="filter-button" type="button" data-country-filter data-filter="not-activated" aria-pressed="false">Route research queued</button>
     </div>
 
     <p class="visually-hidden" id="country-status" aria-live="polite"></p>
     <div class="country-grid" id="country-grid">
-      <p class="empty-state">Loading the country-edition research matrix…</p>
+      <p class="empty-state">Loading the country-edition source starts…</p>
     </div>
   </div>
 </section>
@@ -167,8 +225,9 @@
       </div>
     </footer>
     <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
-  <script src="assets/site-data.js?v=20260815g"></script>
+  <script src="assets/world-coverage.js?v=20260815i"></script>
+  <script src="assets/site-data.js?v=20260815i"></script>
   <script src="assets/vendor/leaflet/leaflet.js?v=1.9.4" defer></script>
-  <script src="assets/app.js?v=20260815g" defer></script>
+  <script src="assets/app.js?v=20260815i" defer></script>
 </body>
 </html>
