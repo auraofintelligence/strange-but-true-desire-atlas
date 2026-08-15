@@ -701,6 +701,18 @@ html:not(.js) .site-nav {
   color: white;
 }
 
+.section--plum .card {
+  color: var(--ink);
+}
+
+.section--plum .card a {
+  color: #5d35ce;
+}
+
+.section--plum .card a:hover {
+  color: #a52359;
+}
+
 .badge,
 .source-type,
 .route-badge,
